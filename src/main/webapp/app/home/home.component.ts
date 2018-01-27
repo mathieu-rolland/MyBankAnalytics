@@ -3,6 +3,8 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import { Account, LoginService, Principal } from '../shared';
 
+import { Chart } from 'angular-highcharts';
+
 @Component({
     selector: 'jhi-home',
     templateUrl: './home.component.html',
@@ -13,12 +15,36 @@ import { Account, LoginService, Principal } from '../shared';
 })
 export class HomeComponent implements OnInit {
     account: Account;
+    options: Object;
+
+     chart = new Chart({
+      chart: {
+        type: 'line'
+      },
+      title: {
+        text: 'Linechart'
+      },
+      credits: {
+        enabled: false
+      },
+      series: [{
+        name: 'Line 1',
+        data: [1, 2, 3]
+      }]
+    });
 
     constructor(
         private principal: Principal,
         private loginService: LoginService,
         private eventManager: JhiEventManager
     ) {
+
+        this.options = {
+            title : { text : 'simple chart' },
+            series: [{
+                data: [29.9, 71.5, 106.4, 129.2],
+            }]
+        };
     }
 
     ngOnInit() {
@@ -26,6 +52,7 @@ export class HomeComponent implements OnInit {
             this.account = account;
         });
         this.registerAuthenticationSuccess();
+
     }
 
     registerAuthenticationSuccess() {
