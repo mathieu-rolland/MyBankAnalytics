@@ -1,0 +1,25 @@
+{
+    "myBankAnalyticsApp": {
+        "extendedUser" : {
+            "home": {
+                "title": "ExtendedUsers",
+                "createLabel": "Créer un nouveau Extended User",
+                "createOrEditLabel": "Créer ou éditer un Extended User"
+            },
+            "created": "Un nouveau Extended User a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Extended User avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Extended User avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Extended User {{ id }} ?"
+            },
+            "detail": {
+                "title": "Extended User"
+            },
+            "name": "Name",
+            "firstname": "Firstname",
+            "address": "Address",
+            "mail": "Mail",
+            "account": "Account"
+        }
+    }
+}

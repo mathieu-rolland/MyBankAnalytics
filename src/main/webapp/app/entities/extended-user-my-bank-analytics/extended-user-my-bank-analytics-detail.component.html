@@ -1,0 +1,38 @@
+
+<div *ngIf="extendedUser">
+    <h2><span jhiTranslate="myBankAnalyticsApp.extendedUser.detail.title">Extended User</span> {{extendedUser.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="myBankAnalyticsApp.extendedUser.name">Name</span></dt>
+        <dd>
+            <span>{{extendedUser.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="myBankAnalyticsApp.extendedUser.firstname">Firstname</span></dt>
+        <dd>
+            <span>{{extendedUser.firstname}}</span>
+        </dd>
+        <dt><span jhiTranslate="myBankAnalyticsApp.extendedUser.address">Address</span></dt>
+        <dd>
+            <span>{{extendedUser.address}}</span>
+        </dd>
+        <dt><span jhiTranslate="myBankAnalyticsApp.extendedUser.mail">Mail</span></dt>
+        <dd>
+            <span>{{extendedUser.mail}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'extended-user-my-bank-analytics/'+ extendedUser.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

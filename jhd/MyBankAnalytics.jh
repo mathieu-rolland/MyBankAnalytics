@@ -1,4 +1,4 @@
-entity User {
+entity ExtendedUser {
 	name String,
     firstname String,
     address String,
@@ -8,28 +8,28 @@ entity User {
 entity BankAccount {
 	id Integer,
 	name String,
-    accountBalance BigInteger
+    accountBalance BigDecimal
 }
 
 entity Operation {
 	id Integer,
-	amount BigInteger
-    date Date
+	amount BigDecimal,
+    date LocalDate
 }
 
 entity Category {
-	name String
+	label String
 }
 
-relationship ManyToOne {
-	Operation{id} to BankAccount,
-    BankAccount to User
+relationship OneToMany {
+	ExtendedUser{account} to BankAccount{owner}
+    BankAccount{operations} to Operation{account}
 }
 
 relationship ManyToMany {
-	Category to Operation
+    Operation{category} to Category{operations},
+    Category{parent} to Category{category}
 }
-
 
 // Set pagination options
 paginate BankAccount, Category with infinite-scroll
@@ -38,6 +38,7 @@ paginate Operation with pagination
 dto * with mapstruct
 
 // Set service options to all except few
-service all with serviceImpl
+service all with serviceImpl except User
 // Set an angular suffix
 angularSuffix * with myBankAnalytics
+

@@ -1,0 +1,42 @@
+
+<div *ngIf="operation">
+    <h2><span jhiTranslate="myBankAnalyticsApp.operation.detail.title">Operation</span> {{operation.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="myBankAnalyticsApp.operation.amount">Amount</span></dt>
+        <dd>
+            <span>{{operation.amount}}</span>
+        </dd>
+        <dt><span jhiTranslate="myBankAnalyticsApp.operation.date">Date</span></dt>
+        <dd>
+            <span>{{operation.date | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="myBankAnalyticsApp.operation.category">Category</span></dt>
+        <dd>
+            <span *ngFor="let category of operation.categories; let last = last">
+                <a [routerLink]="['/category-my-bank-analytics', category?.id ]">{{category.id}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
+        <dt><span jhiTranslate="myBankAnalyticsApp.operation.account">Account</span></dt>
+        <dd>
+            <div *ngIf="operation.accountId">
+                <a [routerLink]="['/bank-account-my-bank-analytics', operation.accountId]">{{operation.accountId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'operation-my-bank-analytics/'+ operation.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>
