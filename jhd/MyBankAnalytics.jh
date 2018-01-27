@@ -1,0 +1,43 @@
+entity User {
+	name String,
+    firstname String,
+    address String,
+    mail String,
+}
+
+entity BankAccount {
+	id Integer,
+	name String,
+    accountBalance BigInteger
+}
+
+entity Operation {
+	id Integer,
+	amount BigInteger
+    date Date
+}
+
+entity Category {
+	name String
+}
+
+relationship ManyToOne {
+	Operation{id} to BankAccount,
+    BankAccount to User
+}
+
+relationship ManyToMany {
+	Category to Operation
+}
+
+
+// Set pagination options
+paginate BankAccount, Category with infinite-scroll
+paginate Operation with pagination
+
+dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl
+// Set an angular suffix
+angularSuffix * with myBankAnalytics
