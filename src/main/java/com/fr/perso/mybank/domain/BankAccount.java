@@ -84,13 +84,14 @@ public class BankAccount implements Serializable {
         return this;
     }
 
-    public BankAccount addOperations(Operation operation) {
+ 
+    public BankAccount addOperation(Operation operation) {
         this.operations.add(operation);
         operation.setAccount(this);
         return this;
     }
 
-    public BankAccount removeOperations(Operation operation) {
+    public BankAccount removeOperation(Operation operation) {
         this.operations.remove(operation);
         operation.setAccount(null);
         return this;
@@ -136,10 +137,17 @@ public class BankAccount implements Serializable {
 
     @Override
     public String toString() {
+    	String operationsStr = "";
+    	for( Operation op : operations ) {
+    		operationsStr += op + ", ";
+    	}
+    	operationsStr = operationsStr.substring(0, operationsStr.length() - (" , ".length()) );
         return "BankAccount{" +
+    		"Owner=" + owner +
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", accountBalance=" + getAccountBalance() +
+            ", operations=[" + operationsStr + "]" +            	
             "}";
     }
 }

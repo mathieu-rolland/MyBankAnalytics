@@ -14,6 +14,8 @@ entity BankAccount {
 entity Operation {
 	id Integer,
 	amount BigDecimal,
+    label String,
+    details String,
     date LocalDate
 }
 
