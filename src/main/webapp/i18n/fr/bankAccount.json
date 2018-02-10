@@ -12,6 +12,9 @@
             "delete": {
                 "question": "Etes-vous certain de vouloir supprimer le Bank Account {{ id }} ?"
             },
+            "import":{
+                "question": "Êtes-vous sûr de vouloir importer un CSV pour cet compte {{ id }} ?"
+            },
             "detail": {
                 "title": "Bank Account"
             },

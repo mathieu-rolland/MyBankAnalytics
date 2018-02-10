@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
       },
       series: [{
         name: 'Line 1',
-        data: [1, 2, 3]
+        data: [1, 0, 3]
       }]
     });
 
@@ -37,15 +37,7 @@ export class HomeComponent implements OnInit {
         private principal: Principal,
         private loginService: LoginService,
         private eventManager: JhiEventManager
-    ) {
-
-        this.options = {
-            title : { text : 'simple chart' },
-            series: [{
-                data: [29.9, 71.5, 106.4, 129.2],
-            }]
-        };
-    }
+    ) {}
 
     ngOnInit() {
         this.principal.identity().then((account) => {
