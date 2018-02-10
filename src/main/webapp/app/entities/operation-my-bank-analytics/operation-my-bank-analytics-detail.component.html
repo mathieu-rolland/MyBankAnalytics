@@ -21,7 +21,7 @@
         <dt><span jhiTranslate="myBankAnalyticsApp.operation.account">Account</span></dt>
         <dd>
             <div *ngIf="operation.accountId">
-                <a [routerLink]="['/bank-account-my-bank-analytics', operation.accountId]">{{operation.accountId}}</a>
+                <a [routerLink]="['/bank-account-my-bank-analytics', operation.accountId]">{{operation.accountName}}</a>
             </div>
         </dd>
     </dl>

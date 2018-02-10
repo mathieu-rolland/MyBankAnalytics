@@ -3,8 +3,6 @@ package com.fr.perso.mybank.service.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -12,7 +10,12 @@ import java.util.Objects;
  */
 public class BankAccountDTO implements Serializable {
 
-    private Long id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Long id;
 
     private String name;
 
@@ -20,6 +23,8 @@ public class BankAccountDTO implements Serializable {
 
     private Long ownerId;
 
+    private String ownerName;
+    
     public Long getId() {
         return id;
     }
@@ -52,6 +57,14 @@ public class BankAccountDTO implements Serializable {
         this.ownerId = extendedUserId;
     }
 
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String extendedUserName) {
+        this.ownerName = extendedUserName;
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) {

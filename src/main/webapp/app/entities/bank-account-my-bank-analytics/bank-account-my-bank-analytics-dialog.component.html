@@ -27,7 +27,7 @@
             <label class="form-control-label" jhiTranslate="myBankAnalyticsApp.bankAccount.owner" for="field_owner">Owner</label>
             <select class="form-control" id="field_owner" name="owner" [(ngModel)]="bankAccount.ownerId" >
                 <option [ngValue]="null"></option>
-                <option [ngValue]="extendedUserOption.id" *ngFor="let extendedUserOption of extendedusers; trackBy: trackExtendedUserById">{{extendedUserOption.id}}</option>
+                <option [ngValue]="extendedUserOption.id" *ngFor="let extendedUserOption of extendedusers; trackBy: trackExtendedUserById">{{extendedUserOption.name}}</option>
             </select>
         </div>
     </div>

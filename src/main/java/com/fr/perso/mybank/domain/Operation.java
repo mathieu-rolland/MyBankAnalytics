@@ -32,6 +32,12 @@ public class Operation implements Serializable {
     @Column(name = "jhi_date")
     private LocalDate date;
 
+    @Column(name = "jhi_label")
+    private String label;
+    
+    @Column(name = "jhi_details")
+    private String details;
+    
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "operation_category",
@@ -51,6 +57,32 @@ public class Operation implements Serializable {
         this.id = id;
     }
 
+    public Operation label(String label) {
+        this.label = label;
+        return this;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+    
+    public Operation details(String details) {
+        this.details = details;
+        return this;
+    }
+
+    public void setdetails(String details) {
+        this.label = details;
+    }
+    
+    public String getDetails() {
+    	return details;
+    }
+    
+    public String getLabel() {
+    	return label;
+    }
+    
     public BigDecimal getAmount() {
         return amount;
     }

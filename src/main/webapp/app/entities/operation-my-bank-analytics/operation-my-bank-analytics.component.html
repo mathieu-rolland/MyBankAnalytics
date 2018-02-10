@@ -30,7 +30,7 @@
                 <td>{{operation.date | date:'mediumDate'}}</td>
                 <td>
                     <div *ngIf="operation.accountId">
-                        <a [routerLink]="['../bank-account-my-bank-analytics', operation.accountId  ]" >{{operation.accountId}}</a>
+                        <a [routerLink]="['../bank-account-my-bank-analytics', operation.accountId  ]" >{{operation.accountName}}</a>
                     </div>
                 </td>
                 <td class="text-right">

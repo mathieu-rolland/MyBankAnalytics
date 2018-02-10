@@ -11,6 +11,8 @@ import {
     BankAccountMyBankAnalyticsPopupComponent,
     BankAccountMyBankAnalyticsDeletePopupComponent,
     BankAccountMyBankAnalyticsDeleteDialogComponent,
+    BankAccountMyBankAnalyticsImportPopupComponent,
+    BankAccountMyBankAnalyticsImportDialogComponent,
     bankAccountRoute,
     bankAccountPopupRoute,
 } from './';
@@ -32,6 +34,8 @@ const ENTITY_STATES = [
         BankAccountMyBankAnalyticsDeleteDialogComponent,
         BankAccountMyBankAnalyticsPopupComponent,
         BankAccountMyBankAnalyticsDeletePopupComponent,
+        BankAccountMyBankAnalyticsImportPopupComponent,
+        BankAccountMyBankAnalyticsImportDialogComponent,
     ],
     entryComponents: [
         BankAccountMyBankAnalyticsComponent,
@@ -39,6 +43,8 @@ const ENTITY_STATES = [
         BankAccountMyBankAnalyticsPopupComponent,
         BankAccountMyBankAnalyticsDeleteDialogComponent,
         BankAccountMyBankAnalyticsDeletePopupComponent,
+        BankAccountMyBankAnalyticsImportPopupComponent,
+        BankAccountMyBankAnalyticsImportDialogComponent,
     ],
     providers: [
         BankAccountMyBankAnalyticsService,

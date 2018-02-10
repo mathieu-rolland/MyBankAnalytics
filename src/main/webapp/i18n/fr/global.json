@@ -98,9 +98,13 @@
             "cancel": "Annuler",
             "edit": "Editer",
             "delete": "Supprimer",
+            "import": "Importer",
             "open": "Ouvrir",
             "save": "Sauvegarder",
             "view": "Voir"
+        },
+        "import":{
+            "title": "Importer un fichier d'opérations"
         },
         "detail": {
             "field": "Champs",

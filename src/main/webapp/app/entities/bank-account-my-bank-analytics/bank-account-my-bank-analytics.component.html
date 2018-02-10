@@ -30,7 +30,7 @@
                 <td>{{bankAccount.accountBalance}}</td>
                 <td>
                     <div *ngIf="bankAccount.ownerId">
-                        <a [routerLink]="['../extended-user-my-bank-analytics', bankAccount.ownerId  ]" >{{bankAccount.ownerId}}</a>
+                        <a [routerLink]="['../extended-user-my-bank-analytics', bankAccount.ownerId  ]" >{{bankAccount.ownerName}}</a>
                     </div>
                 </td>
                 <td class="text-right">
@@ -56,6 +56,14 @@
                                 class="btn btn-danger btn-sm">
                             <span class="fa fa-remove"></span>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'bank-account-my-bank-analytics/'+ bankAccount.id + '/import'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.import">Import</span>
                         </button>
                     </div>
                 </td>

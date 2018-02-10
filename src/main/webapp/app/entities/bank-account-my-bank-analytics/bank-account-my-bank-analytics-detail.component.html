@@ -15,7 +15,7 @@
         <dt><span jhiTranslate="myBankAnalyticsApp.bankAccount.owner">Owner</span></dt>
         <dd>
             <div *ngIf="bankAccount.ownerId">
-                <a [routerLink]="['/extended-user-my-bank-analytics', bankAccount.ownerId]">{{bankAccount.ownerId}}</a>
+                <a [routerLink]="['/extended-user-my-bank-analytics', bankAccount.ownerId]">{{bankAccount.ownerName}}</a>
             </div>
         </dd>
     </dl>

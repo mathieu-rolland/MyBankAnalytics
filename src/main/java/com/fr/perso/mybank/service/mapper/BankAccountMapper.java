@@ -12,9 +12,10 @@ import org.mapstruct.*;
 public interface BankAccountMapper extends EntityMapper<BankAccountDTO, BankAccount> {
 
     @Mapping(source = "owner.id", target = "ownerId")
+    @Mapping(source = "owner.name", target = "ownerName")
     BankAccountDTO toDto(BankAccount bankAccount);
 
-    @Mapping(target = "operations", ignore = true)
+    @Mapping(target = "operations")
     @Mapping(source = "ownerId", target = "owner")
     BankAccount toEntity(BankAccountDTO bankAccountDTO);
 

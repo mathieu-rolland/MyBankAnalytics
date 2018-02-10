@@ -6,6 +6,8 @@ import com.fr.perso.mybank.web.rest.errors.BadRequestAlertException;
 import com.fr.perso.mybank.web.rest.util.HeaderUtil;
 import com.fr.perso.mybank.web.rest.util.PaginationUtil;
 import com.fr.perso.mybank.service.dto.BankAccountDTO;
+import com.fr.perso.mybank.service.impl.FileStorageService;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +17,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -34,9 +38,11 @@ public class BankAccountResource {
     private static final String ENTITY_NAME = "bankAccount";
 
     private final BankAccountService bankAccountService;
-
-    public BankAccountResource(BankAccountService bankAccountService) {
+    private final FileStorageService storageService;
+    
+    public BankAccountResource(BankAccountService bankAccountService , FileStorageService storageService) {
         this.bankAccountService = bankAccountService;
+        this.storageService = storageService;
     }
 
     /**
@@ -122,5 +128,21 @@ public class BankAccountResource {
         log.debug("REST request to delete BankAccount : {}", id);
         bankAccountService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+    
+    @PostMapping("/bank-accounts/{id}/import")
+    public ResponseEntity<String> importBankAccountOperation(@RequestParam("fileKey") MultipartFile file, @PathVariable Long id){
+    	log.debug("Start on import " + (file != null ? file.getOriginalFilename() : "file is null"));
+    	
+    	
+    	File result = storageService.storeFileInDownloadDirectory( file );
+    	
+        /*redirectAttributes.addFlashAttribute("message",
+                "You successfully uploaded " + file.getOriginalFilename() + "!");
+	*/
+    	boolean importStatus = bankAccountService.importOprations( result , id);
+    	
+    	
+        return ResponseEntity.ok().headers( HeaderUtil.createEntityUpdateAlert( ENTITY_NAME , importStatus + "") ).build();
     }
 }

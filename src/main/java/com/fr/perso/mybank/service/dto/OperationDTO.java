@@ -13,7 +13,12 @@ import java.util.Objects;
  */
 public class OperationDTO implements Serializable {
 
-    private Long id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Long id;
 
     private BigDecimal amount;
 
@@ -23,6 +28,8 @@ public class OperationDTO implements Serializable {
 
     private Long accountId;
 
+    private String accountName;
+    
     public Long getId() {
         return id;
     }
@@ -31,6 +38,14 @@ public class OperationDTO implements Serializable {
         this.id = id;
     }
 
+    public String getAccountName() {
+    	return accountName;
+    }
+    
+    public void setAccountName( String accountName ) {
+    	this.accountName = accountName;
+    }
+    
     public BigDecimal getAmount() {
         return amount;
     }
