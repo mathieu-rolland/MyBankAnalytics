@@ -34,6 +34,11 @@ export class BankAccountMyBankAnalyticsImportDialogComponent {
 		console.log('Confirme import clicked for ' + this.fileToUpload.name );
         this.bankAccountService.import( this.fileToUpload , id ).subscribe( (res) => {
             console.log(res);
+            this.eventManager.broadcast({
+                name: 'bankAccountListModification',
+                content: 'Import a bankAccount'
+            });
+            this.activeModal.dismiss(true);
         } );
 	}
 }

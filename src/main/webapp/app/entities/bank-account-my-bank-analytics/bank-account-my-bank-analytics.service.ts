@@ -53,8 +53,7 @@ export class BankAccountMyBankAnalyticsService {
         console.log('Launch upload' + this.resourceUrl+"/" + id + "/import");
 
         return this.http.post( this.resourceUrl+"/" + id + "/import", formData ).map((res: Response) => {
-            const jsonResponse = res.json();
-            return jsonResponse;
+            return res;
         });
     }
 

@@ -143,6 +143,6 @@ public class BankAccountResource {
     	boolean importStatus = bankAccountService.importOprations( result , id);
     	
     	
-        return ResponseEntity.ok().body("Status : " + importStatus);
+        return ResponseEntity.ok().headers( HeaderUtil.createEntityUpdateAlert( ENTITY_NAME , importStatus + "") ).build();
     }
 }

@@ -12,6 +12,7 @@ import org.mapstruct.*;
 public interface OperationMapper extends EntityMapper<OperationDTO, Operation> {
 
     @Mapping(source = "account.id", target = "accountId")
+    @Mapping(source = "account.name", target = "accountName")
     OperationDTO toDto(Operation operation);
 
     @Mapping(source = "accountId", target = "account")
