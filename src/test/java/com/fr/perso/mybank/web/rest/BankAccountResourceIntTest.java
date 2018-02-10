@@ -6,6 +6,7 @@ import com.fr.perso.mybank.domain.BankAccount;
 import com.fr.perso.mybank.repository.BankAccountRepository;
 import com.fr.perso.mybank.service.BankAccountService;
 import com.fr.perso.mybank.service.dto.BankAccountDTO;
+import com.fr.perso.mybank.service.impl.FileStorageService;
 import com.fr.perso.mybank.service.mapper.BankAccountMapper;
 import com.fr.perso.mybank.web.rest.errors.ExceptionTranslator;
 
@@ -55,6 +56,9 @@ public class BankAccountResourceIntTest {
     private BankAccountMapper bankAccountMapper;
 
     @Autowired
+    private FileStorageService storageService;
+    
+    @Autowired
     private BankAccountService bankAccountService;
 
     @Autowired
@@ -76,7 +80,7 @@ public class BankAccountResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final BankAccountResource bankAccountResource = new BankAccountResource(bankAccountService);
+        final BankAccountResource bankAccountResource = new BankAccountResource(bankAccountService , storageService);
         this.restBankAccountMockMvc = MockMvcBuilders.standaloneSetup(bankAccountResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.fr.perso.mybank.domain.BankAccount;
 import com.fr.perso.mybank.domain.Operation;
+import com.fr.perso.mybank.factory.IBankFactory;
 
 public interface IParser {
 
@@ -18,5 +19,8 @@ public interface IParser {
 	public BankAccount getBankAccount();
 	public List<Operation> getOperations(); 
 	public int parse() throws FileNotFoundException, IOException;
+	public void setFile( File f );
+	public void setBankAccount( BankAccount account );
+	public void setFactory(IBankFactory factory);
 	
 }

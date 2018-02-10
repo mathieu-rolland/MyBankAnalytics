@@ -32,10 +32,10 @@ public class BankAccount implements Serializable {
     @Column(name = "account_balance", precision=10, scale=2)
     private BigDecimal accountBalance;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account" , cascade = CascadeType.ALL )
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Operation> operations = new HashSet<>();
+    private Set<Operation> operations = new HashSet<Operation>();
 
     @ManyToOne
     private ExtendedUser owner;

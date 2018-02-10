@@ -103,6 +103,9 @@
             "save": "Sauvegarder",
             "view": "Voir"
         },
+        "import":{
+            "title": "Importer un fichier d'opérations"
+        },
         "detail": {
             "field": "Champs",
             "value": "Valeur"

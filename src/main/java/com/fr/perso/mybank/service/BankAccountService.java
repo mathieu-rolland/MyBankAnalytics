@@ -1,6 +1,8 @@
 package com.fr.perso.mybank.service;
 
 import com.fr.perso.mybank.service.dto.BankAccountDTO;
+import java.io.File;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -39,4 +41,7 @@ public interface BankAccountService {
      * @param id the id of the entity
      */
     void delete(Long id);
+    
+	boolean importOprations(File file, Long bankAccountId);
+    
 }

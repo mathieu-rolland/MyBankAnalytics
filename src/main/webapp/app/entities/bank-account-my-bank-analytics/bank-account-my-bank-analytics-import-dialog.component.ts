@@ -15,6 +15,7 @@ import { BankAccountMyBankAnalyticsService } from './bank-account-my-bank-analyt
 export class BankAccountMyBankAnalyticsImportDialogComponent {
 
 	bankAccount : BankAccountMyBankAnalytics;
+    fileToUpload: File = null;
 
 	constructor(
 		private bankAccountService: BankAccountMyBankAnalyticsService,
@@ -25,8 +26,15 @@ export class BankAccountMyBankAnalyticsImportDialogComponent {
         this.activeModal.dismiss('cancel');
     }
 
+    handleFileInput( files: FileList ){
+        this.fileToUpload = files.item(0);
+    }
+
 	confirmImport( id: number ){
-		console.log('Confirme import clicked');
+		console.log('Confirme import clicked for ' + this.fileToUpload.name );
+        this.bankAccountService.import( this.fileToUpload , id ).subscribe( (res) => {
+            console.log(res);
+        } );
 	}
 }
 

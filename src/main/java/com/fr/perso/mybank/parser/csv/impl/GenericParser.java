@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import com.fr.perso.mybank.domain.BankAccount;
 import com.fr.perso.mybank.domain.Operation;
 import com.fr.perso.mybank.factory.BankFactoryImpl;
+import com.fr.perso.mybank.factory.IBankFactory;
 import com.fr.perso.mybank.parser.csv.IParser;
 
 public abstract class GenericParser implements IParser {
@@ -21,9 +22,15 @@ public abstract class GenericParser implements IParser {
 	protected File file;
 	protected BankAccount account;
 	private int nbLineHeader;
-	protected BankFactoryImpl bankFactory;
+	protected IBankFactory bankFactory;
     
 	private static final Logger log = LoggerFactory.getLogger(GenericParser.class);
+	
+	public GenericParser() {};
+	
+	public GenericParser(IBankFactory factory ) {
+		this.bankFactory = factory;
+	};
 	
 	public GenericParser( File f , BankAccount account , BankFactoryImpl bankFactory) {
 		this.file = f;

@@ -5,6 +5,7 @@
                 (click)="clear()">&times;</button>
     </div>
     <div class="modal-body">
+        <input type="file" name="csv-upload" (change)="handleFileInput($event.target.files)"/>
         <jhi-alert-error></jhi-alert-error>
         <p jhiTranslate="myBankAnalyticsApp.bankAccount.import.question" translateValues="{id: '{{bankAccount.id}}'}">Are you sure you want to import CSV for this Bank Account?</p>
     </div>

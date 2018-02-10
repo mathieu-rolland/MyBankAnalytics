@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.fr.perso.mybank.domain.BankAccount;
 import com.fr.perso.mybank.domain.Operation;
 import com.fr.perso.mybank.factory.BankFactoryImpl;
+import com.fr.perso.mybank.factory.IBankFactory;
 
 public class CaisseEpargneParser extends GenericParser {
 
@@ -36,6 +37,14 @@ public class CaisseEpargneParser extends GenericParser {
 	private static final int COLUMN_OPERATION_DEBIT = 3;
 	private static final int COLUMN_OPERATION_CREDIT = 4;
 	private static final int COLUMN_OPERATION_DETAILS = 5;
+	
+	public CaisseEpargneParser() {
+		super();
+	}
+	
+	public CaisseEpargneParser(IBankFactory factory) {
+		super(factory);
+	}
 	
 	public CaisseEpargneParser(File f, BankAccount account , BankFactoryImpl bankFactory) {
 		super(f, account , bankFactory);
@@ -104,7 +113,10 @@ public class CaisseEpargneParser extends GenericParser {
 				if( isDebit(splittedLine) ) {
 					op.setAmount( new BigDecimal( splittedLine[COLUMN_OPERATION_DEBIT].replace(",",".") ) );
 				}else {
-					if( splittedLine[COLUMN_OPERATION_CREDIT] != null && "".equals(splittedLine[COLUMN_OPERATION_CREDIT])) {
+					if( splittedLine != null 
+							&& splittedLine.length > COLUMN_OPERATION_CREDIT
+							&& splittedLine[COLUMN_OPERATION_CREDIT] != null 
+							&& ! "".equals(splittedLine[COLUMN_OPERATION_CREDIT])) {
 						op.setAmount( new BigDecimal( splittedLine[COLUMN_OPERATION_CREDIT].replace(",",".") ) );
 					}else {
 						log.warn( "The proccessed line has no operation amount ({})" , line );
@@ -125,7 +137,26 @@ public class CaisseEpargneParser extends GenericParser {
 	}
 
 	private boolean isDebit( String[] line ) {
-		return !("".equals(line[COLUMN_OPERATION_DEBIT]) || line[COLUMN_OPERATION_DEBIT] == null);
+		if ( line != null && line.length > COLUMN_OPERATION_DEBIT  ) {
+			return !("".equals(line[COLUMN_OPERATION_DEBIT]) || line[COLUMN_OPERATION_DEBIT] == null);
+		}else {
+			return false;
+		}
+	}
+
+	@Override
+	public void setFile(File f) {
+		this.file = f;		
+	}
+
+	@Override
+	public void setBankAccount(BankAccount account) {
+		this.account = account;
+	}
+
+	@Override
+	public void setFactory(IBankFactory factory) {
+		this.bankFactory = factory;
 	}
 	
 }

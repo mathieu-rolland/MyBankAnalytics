@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Bean;
 import com.fr.perso.mybank.domain.BankAccount;
 import com.fr.perso.mybank.domain.Category;
 import com.fr.perso.mybank.domain.Operation;
+import com.fr.perso.mybank.parser.csv.IParser;
+import com.fr.perso.mybank.parser.csv.impl.CaisseEpargneParser;
 
 public class BankFactoryImpl implements IBankFactory {
 	
@@ -21,6 +23,11 @@ public class BankFactoryImpl implements IBankFactory {
 	@Override
 	public Operation createOperation() {
 		return new Operation();
+	}
+
+	@Override
+	public IParser createParser() {
+		return new CaisseEpargneParser(this);
 	}
 	
 }
