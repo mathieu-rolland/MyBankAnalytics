@@ -5,7 +5,7 @@ import { BankAccountMyBankAnalyticsComponent } from './bank-account-my-bank-anal
 import { BankAccountMyBankAnalyticsDetailComponent } from './bank-account-my-bank-analytics-detail.component';
 import { BankAccountMyBankAnalyticsPopupComponent } from './bank-account-my-bank-analytics-dialog.component';
 import { BankAccountMyBankAnalyticsDeletePopupComponent } from './bank-account-my-bank-analytics-delete-dialog.component';
-import { BankAccountMyBankAnalyticsImportDialogComponent } from './bank-account-my-bank-analytics-import-dialog.component';
+import { BankAccountMyBankAnalyticsImportPopupComponent } from './bank-account-my-bank-analytics-import-dialog.component';
 
 export const bankAccountRoute: Routes = [
     {
@@ -60,7 +60,7 @@ export const bankAccountPopupRoute: Routes = [
     },
     {
         path: 'bank-account-my-bank-analytics/:id/import',
-        component: BankAccountMyBankAnalyticsImportDialogComponent,
+        component: BankAccountMyBankAnalyticsImportPopupComponent,
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'myBankAnalyticsApp.bankAccount.home.title'

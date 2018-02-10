@@ -30,7 +30,7 @@
                 <td>{{bankAccount.accountBalance}}</td>
                 <td>
                     <div *ngIf="bankAccount.ownerId">
-                        <a [routerLink]="['../extended-user-my-bank-analytics', bankAccount.ownerId  ]" >{{bankAccount.ownerId}}</a>
+                        <a [routerLink]="['../extended-user-my-bank-analytics', bankAccount.ownerId  ]" >{{bankAccount.ownerName}}</a>
                     </div>
                 </td>
                 <td class="text-right">
