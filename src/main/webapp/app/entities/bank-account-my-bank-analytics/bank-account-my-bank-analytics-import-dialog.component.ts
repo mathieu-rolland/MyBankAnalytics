@@ -14,24 +14,24 @@ import { BankAccountMyBankAnalyticsService } from './bank-account-my-bank-analyt
 })
 export class BankAccountMyBankAnalyticsImportDialogComponent {
 
-	bankAccount : BankAccountMyBankAnalytics;
+    bankAccount: BankAccountMyBankAnalytics;
     fileToUpload: File = null;
 
-	constructor(
-		private bankAccountService: BankAccountMyBankAnalyticsService,
+    constructor(
+        private bankAccountService: BankAccountMyBankAnalyticsService,
         public activeModal: NgbActiveModal,
         private eventManager: JhiEventManager) {}
 
- 	clear() {
+     clear() {
         this.activeModal.dismiss('cancel');
     }
 
-    handleFileInput( files: FileList ){
+    handleFileInput( files: FileList ) {
         this.fileToUpload = files.item(0);
     }
 
-	confirmImport( id: number ){
-		console.log('Confirme import clicked for ' + this.fileToUpload.name );
+    confirmImport( id: number ) {
+        console.log('Confirme import clicked for ' + this.fileToUpload.name );
         this.bankAccountService.import( this.fileToUpload , id ).subscribe( (res) => {
             console.log(res);
             this.eventManager.broadcast({
@@ -40,20 +40,19 @@ export class BankAccountMyBankAnalyticsImportDialogComponent {
             });
             this.activeModal.dismiss(true);
         } );
-	}
+    }
 }
 
-
 @Component({
-	selector: 'jhi-bank-account-my-bank-analytics-import-popup',
-	template : ''
+    selector: 'jhi-bank-account-my-bank-analytics-import-popup',
+    template : ''
 })
-export class BankAccountMyBankAnalyticsImportPopupComponent implements OnInit, OnDestroy{
+export class BankAccountMyBankAnalyticsImportPopupComponent implements OnInit, OnDestroy {
 
-	routeSub: any;
+    routeSub: any;
 
-	constructor(
-		private route: ActivatedRoute,
+    constructor(
+        private route: ActivatedRoute,
         private bankAccountPopupService: BankAccountMyBankAnalyticsPopupService
     ) {}
 

@@ -2,23 +2,24 @@
     "myBankAnalyticsApp": {
         "operation" : {
             "home": {
-                "title": "Operations",
-                "createLabel": "Créer un nouveau Operation",
-                "createOrEditLabel": "Créer ou éditer un Operation"
+                "title": "Opérations",
+                "createLabel": "Créer une nouvelle operation",
+                "createOrEditLabel": "Créer ou éditer une operation"
             },
-            "created": "Un nouveau Operation a été créé avec l'identifiant {{ param }}",
-            "updated": "Le Operation avec l'identifiant {{ param }} a été mis à jour",
-            "deleted": "Le Operation avec l'identifiant {{ param }} a été supprimé",
+            "created": "Un nouveau operation a été créée avec l'identifiant {{ param }}",
+            "updated": "Le Operation avec l'identifiant {{ param }} a été mise à jour",
+            "deleted": "Le Operation avec l'identifiant {{ param }} a été supprimée",
             "delete": {
-                "question": "Etes-vous certain de vouloir supprimer le Operation {{ id }} ?"
+                "question": "Etes-vous certain de vouloir supprimer l'operation {{ id }} ?"
             },
             "detail": {
-                "title": "Operation"
+                "title": "Opération"
             },
-            "amount": "Amount",
+            "amount": "Montant",
             "date": "Date",
-            "category": "Category",
-            "account": "Account"
+            "category": "Categorie",
+            "account": "Compte",
+            "label": "Libellé"
         }
     }
 }

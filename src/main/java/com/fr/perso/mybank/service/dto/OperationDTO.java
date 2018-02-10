@@ -30,6 +30,10 @@ public class OperationDTO implements Serializable {
 
     private String accountName;
     
+    private String label;
+    
+    private String details;
+    
     public Long getId() {
         return id;
     }
@@ -78,7 +82,23 @@ public class OperationDTO implements Serializable {
         this.accountId = bankAccountId;
     }
 
-    @Override
+    public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+	public String getDetails() {
+		return details;
+	}
+
+	public void setDetails(String details) {
+		this.details = details;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
