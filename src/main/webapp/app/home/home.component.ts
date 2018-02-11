@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation , AfterViewInit, ElementRef} from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { Account, LoginService, ITEMS_PER_PAGE, Principal, ResponseWrapper, DateUtils } from '../shared';
 
 import { Chart } from 'angular-highcharts';
+import { ChartModule } from 'angular2-highcharts';
 import { BankAccountMyBankAnalyticsService, BankAccountMyBankAnalytics } from '../entities/bank-account-my-bank-analytics';
 import { OperationMyBankAnalyticsService, OperationMyBankAnalytics } from '../entities/operation-my-bank-analytics';
 import { CategoryMyBankAnalytics } from '../entities/category-my-bank-analytics';
@@ -14,7 +15,8 @@ import { CategoryMyBankAnalytics } from '../entities/category-my-bank-analytics'
     templateUrl: './home.component.html',
     styleUrls: [
         'home.scss'
-    ]
+    ],
+    encapsulation: ViewEncapsulation.None,
 
 })
 export class HomeComponent implements OnInit {
@@ -23,7 +25,7 @@ export class HomeComponent implements OnInit {
 
     bankAccounts: BankAccountMyBankAnalytics[];
 
-    starDate: Date;
+    startDate: Date;
     endDate: Date;
 
     /*chart = new Chart({
@@ -50,6 +52,7 @@ export class HomeComponent implements OnInit {
 
     constructor(
         private principal: Principal,
+        private elementRef:ElementRef,
         private loginService: LoginService,
         private eventManager: JhiEventManager,
         private accountService: BankAccountMyBankAnalyticsService,
@@ -58,6 +61,13 @@ export class HomeComponent implements OnInit {
 
         this.bankAccounts = [];
 
+    }
+
+    ngAfterViewInit() {
+        this.elementRef.nativeElement.querySelector('.controller.next')
+                                .addEventListener('click', this.onNextClick.bind(this));
+        this.elementRef.nativeElement.querySelector('.controller.previous')
+                                .addEventListener('click', this.onPreviousClick.bind(this));
     }
 
     ngOnInit() {
@@ -73,7 +83,7 @@ export class HomeComponent implements OnInit {
         selectMonth.setMonth( selectMonth.getMonth() - 1 );  
 
         //Calcul des dates : 
-        this.starDate = DateUtils.firstDayOftTheMonth( selectMonth );
+        this.startDate = DateUtils.firstDayOftTheMonth( selectMonth );
         this.endDate = DateUtils.lastDayOfTheMonth( selectMonth );
 
 
@@ -85,10 +95,14 @@ export class HomeComponent implements OnInit {
                 type: 'pie'
             },
             title: {
-                text: 'Repartition des dépenses du '
-                     + DateUtils.formatDate('dd/MM/yyyy', this.starDate )
-                     +' au '
-                     + DateUtils.formatDate('dd/MM/yyyy' , this.endDate )
+                useHTML: true,
+                text: 
+                    '<img class="controller next" src="content/next.png" alt="next" (click)="nextMonth()"/>'
+                    + 'Repartition des dépenses du '
+                    + DateUtils.formatDate('dd/MM/yyyy', this.startDate )
+                    +' au '
+                    + DateUtils.formatDate('dd/MM/yyyy' , this.endDate )
+                    + '<img class="controller previous" src="content/previous.png" alt="next" (click)="previousMonth()"/>'
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.y:.1f} €</b>'
@@ -118,8 +132,10 @@ export class HomeComponent implements OnInit {
                 type: 'pie'
             },
             title: {
-                text: 'Répartition des apports mensuel du '
-                     + DateUtils.formatDate('dd/MM/yyyy', this.starDate )
+                useHTML: true,
+                text:
+                     'Répartition des apports mensuel du '
+                     + DateUtils.formatDate('dd/MM/yyyy', this.startDate )
                      +' au '
                      + DateUtils.formatDate('dd/MM/yyyy' , this.endDate )
             },
@@ -143,9 +159,51 @@ export class HomeComponent implements OnInit {
         } );
     }
 
+    onNextClick(){
+        console.log('click');
+        let newDate: Date = this.startDate;
+        newDate.setMonth( newDate.getMonth() + 1  );
+        this.startDate = DateUtils.firstDayOftTheMonth( newDate );
+        this.endDate = DateUtils.lastDayOfTheMonth( newDate );
+        this.loadAccountData();
+        this.updateChartsTitle();
+    }
 
+    onPreviousClick(){
+        console.log('click');
+        let newDate: Date = this.startDate;
+        newDate.setMonth( newDate.getMonth() - 1  );
+        this.startDate = DateUtils.firstDayOftTheMonth( newDate );
+        this.endDate = DateUtils.lastDayOfTheMonth( newDate );
+        this.loadAccountData();
+        console.log( this.startDate );
+        this.updateChartsTitle();
+    }
+
+    updateChartsTitle(){
+
+        this.chartDebit.options.title.text = '<img class="controller next" src="content/next.png" alt="next" (click)="nextMonth()"/>'
+                    + 'Repartition des dépenses du '
+                    + DateUtils.formatDate('dd/MM/yyyy', this.startDate )
+                    +' au '
+                    + DateUtils.formatDate('dd/MM/yyyy' , this.endDate )
+                    + '<img class="controller previous" src="content/previous.png" alt="next" (click)="previousMonth()"/>';
+
+        this.chartCredit.options.title.text = '<img class="controller next" src="content/next.png" alt="next" />' 
+                     + 'Répartition des apports mensuel du '
+                     + DateUtils.formatDate('dd/MM/yyyy', this.startDate )
+                     +' au '
+                     + DateUtils.formatDate('dd/MM/yyyy' , this.endDate )
+                     + '<img class="controller previous" src="content/previous.png" alt="previous" />' ;
+
+        console.log(this.chartDebit.options.title.text);
+
+    }
 
     loadAccountData() {
+
+        this.bankAccounts = [];
+
         this.accountService.query({page: this.page,
             size: this.itemsPerPage
         }).subscribe(
@@ -159,7 +217,7 @@ export class HomeComponent implements OnInit {
         for (let i = 0; i < data.length; i++) {
             const account: BankAccountMyBankAnalytics = data[i];
             this.operationService.findBetweenDate(
-                this.starDate,
+                this.startDate,
                 this.endDate
              ).subscribe(
                     (res: ResponseWrapper) => this.registerOperationForAccount( res.json , account),
@@ -177,6 +235,11 @@ export class HomeComponent implements OnInit {
 
     generatePiechart( bankAccounts )
     {
+
+        this.chartCredit.removeSerie(0);
+        this.chartDebit.removeSerie(0);
+
+
         let debit: any = {
             'title':'Debit Month',
             'colorByPoint': true
