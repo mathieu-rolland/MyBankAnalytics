@@ -49,7 +49,7 @@ export class OperationMyBankAnalyticsService {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
 
-    findBetweenDate(d1: Date, d2:Date): Observable<ResponseWrapper> {
+    findBetweenDate(d1: Date, d2: Date): Observable<ResponseWrapper> {
 
         const options: BaseRequestOptions = new BaseRequestOptions();
 

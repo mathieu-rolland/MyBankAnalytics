@@ -13,7 +13,6 @@ import {
     Principal,
     JhiTrackerService,
     HasAnyAuthorityDirective,
-    DateUtils,
 } from './';
 
 @NgModule({

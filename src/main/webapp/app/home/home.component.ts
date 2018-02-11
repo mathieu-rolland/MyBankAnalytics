@@ -19,7 +19,7 @@ import { CategoryMyBankAnalytics } from '../entities/category-my-bank-analytics'
     encapsulation: ViewEncapsulation.None,
 
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
     account: Account;
     options: Object;
 
@@ -27,22 +27,6 @@ export class HomeComponent implements OnInit {
 
     startDate: Date;
     endDate: Date;
-
-    /*chart = new Chart({
-      chart: {
-        type: 'line'
-      },
-      title: {
-        text: 'Linechart'
-      },
-      credits: {
-        enabled: false
-      },
-      series: [{
-        name: 'Line 1',
-        data: [1, 0, 3]
-      }]
-    });*/
 
     chartDebit: Chart;
     chartCredit: Chart;
@@ -76,13 +60,12 @@ export class HomeComponent implements OnInit {
 
         this.loadAccountData();
 
-        let selectMonth: Date = new Date();
-        selectMonth.setMonth( selectMonth.getMonth() - 1 );  
+        const selectMonth: Date = new Date();
+        selectMonth.setMonth( selectMonth.getMonth() - 1 );
 
-        //Calcul des dates : 
+        // Calcul des dates :
         this.startDate = DateUtils.firstDayOftTheMonth( selectMonth );
         this.endDate = DateUtils.lastDayOfTheMonth( selectMonth );
-
 
         this.chartDebit = new Chart( {
            chart: {
@@ -108,27 +91,26 @@ export class HomeComponent implements OnInit {
                             color: 'black'
                         }
                     }
-                } 
+                }
             },
             series: []
         } );
 
-
         this.chartCredit = new Chart( {
-           chart: {
+           chart:{
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
                 plotShadow: false,
                 type: 'pie'
             },
-            title: {
+            title:{
                 useHTML: true
             },
-            tooltip: {
+            tooltip:{
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
             },
-            plotOptions: {
-                pie: {
+            plotOptions:{
+                pie:{
                     allowPointSelect: true,
                     cursor: 'pointer',
                     dataLabels: {
@@ -138,14 +120,14 @@ export class HomeComponent implements OnInit {
                             color: 'black'
                         }
                     }
-                } 
+                }
             },
             series: []
         } );
     }
 
-    onNextClick(){
-        let newDate: Date = this.startDate;
+    onNextClick() {
+        const newDate: Date = this.startDate;
         newDate.setMonth( newDate.getMonth() + 1  );
         this.startDate = DateUtils.firstDayOftTheMonth( newDate );
         this.endDate = DateUtils.lastDayOfTheMonth( newDate );
@@ -154,9 +136,9 @@ export class HomeComponent implements OnInit {
 
     }
 
-    onPreviousClick(){
-        
-        let newDate: Date = this.startDate;
+    onPreviousClick() {
+
+        const newDate: Date = this.startDate;
         newDate.setMonth( newDate.getMonth() - 1  );
         this.startDate = DateUtils.firstDayOftTheMonth( newDate );
         this.endDate = DateUtils.lastDayOfTheMonth( newDate );
@@ -165,9 +147,9 @@ export class HomeComponent implements OnInit {
 
     }
 
-    updateChartsTitle(){
+    updateChartsTitle() {
 
-        this.chartCredit.ref.setTitle({ 'text': 
+        this.chartCredit.ref.setTitle({ 'text':
                     'Répartition des apports mensuel du '
                      + DateUtils.formatDate('dd/MM/yyyy', this.startDate )
                      +' au '
@@ -185,7 +167,7 @@ export class HomeComponent implements OnInit {
 
     }
 
-    addListenerOnController(){
+    addListenerOnController() {
         this.elementRef.nativeElement.querySelector('.controller.next')
                                 .addEventListener('click', this.onNextClick.bind(this));
         this.elementRef.nativeElement.querySelector('.controller.previous')
@@ -205,7 +187,6 @@ export class HomeComponent implements OnInit {
     }
 
     onAccountsFetch( data , header ) {
-        var datePipe = new DatePipe('fr-FR');
         for (let i = 0; i < data.length; i++) {
             const account: BankAccountMyBankAnalytics = data[i];
             this.operationService.findBetweenDate(
@@ -216,7 +197,7 @@ export class HomeComponent implements OnInit {
                     (res: ResponseWrapper) => this.onError(res.json)
             )
         }
-        
+
     }
 
     registerOperationForAccount( operations , account ) {
@@ -225,20 +206,18 @@ export class HomeComponent implements OnInit {
         this.generatePiechart( this.bankAccounts );
     }
 
-    generatePiechart( bankAccounts )
-    {
+    generatePiechart( bankAccounts ) {
 
         this.chartCredit.removeSerie(0);
         this.chartDebit.removeSerie(0);
 
-
-        let debit: any = {
+        const debit: any = {
             'title':'Debit Month',
             'colorByPoint': true
         };
         debit.data = [];
 
-        let credit: any = {
+        const credit: any = {
             'title':'Credit Month',
             'colorByPoint': true
         };
@@ -246,43 +225,45 @@ export class HomeComponent implements OnInit {
 
         for (let i = 0; i < bankAccounts.length; i++) {
             const operations: OperationMyBankAnalytics[] = bankAccounts[i].operations;
-            for( let j = 0 ; j < operations.length ; j++ ){
+            for( let j = 0 ; j < operations.length ; j++ ) {
                 const operation: OperationMyBankAnalytics = operations[j];
                 const category: CategoryMyBankAnalytics = operation.categories.length == 0 ? null : operation.categories[0];
 
                 const chartLabel: string = category == null ? 'TO BE DEFINED' : category.label;
 
-                if( operation.amount < 0 ){
+                if( operation.amount < 0 ) {
 
-                    if( debit.data[chartLabel] ){
-                        debit.data[chartLabel].y += Math.abs(operation.amount) ;
-                    }else{
-                        debit.data[chartLabel] = {
+                    if( debit.data[chartLabel] ) {
+                        debit.data[chartLabel].y += Math.abs(operation.amount);
+                    } else {
+                        debit.data[ chartLabel ] = {
                             'name': chartLabel,
                             'y': Math.abs(operation.amount)
                         };
                     }
                 }else{
-                     if( credit.data[chartLabel] ){
-                        credit.data[chartLabel].y += operation.amount ;
+                    if( credit.data[ chartLabel ] ) {
+                        credit.data[ chartLabel ].y += operation.amount;
                     }else{
-                        credit.data[chartLabel] = {
+                        credit.data[ chartLabel ] = {
                             'name': chartLabel,
                             'y': operation.amount
                         };
                     }
                 }
-                //serie.data.push( {'name' : chartLabel , 'y': operation.amount} );
             }
         }
-        
-        for( const obj in debit.data){
-           debit.data.push( debit.data[obj] );
+        if (debit.data ) {
+            for( const obj in debit.data ) {
+               debit.data.push( debit.data[obj] );
+            }
         }
-        for( const obj in credit.data){
-           credit.data.push( credit.data[obj] );
+
+        if( credit.data ) {    
+            for( const obj in credit.data ) {
+               credit.data.push( credit.data[obj] );
+            }
         }
-  
         this.chartDebit.addSerie( debit );
         this.chartCredit.addSerie( credit );
         this.updateChartsTitle();

@@ -9,7 +9,6 @@ export class LoginService {
 
     constructor(
         private principal: Principal,
-        private trackerService: JhiTrackerService,
         private authServerProvider: AuthServerProvider
     ) {}
 
