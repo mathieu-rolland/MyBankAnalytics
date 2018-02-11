@@ -844,7 +844,7 @@
                                     <arguments>install --force</arguments>
                                 </configuration>
                             </execution>
-                            <execution>
+                            <!--<execution>
                                 <id>webpack build test</id>
                                 <goals>
                                     <goal>yarn</goal>
@@ -854,7 +854,7 @@
                                     <arguments>run webpack:test</arguments>
                                     <yarnInheritsProxyConfigFromMaven>false</yarnInheritsProxyConfigFromMaven>
                                 </configuration>
-                            </execution>
+                            </execution>-->
                             <execution>
                                 <id>webpack build prod</id>
                                 <goals>

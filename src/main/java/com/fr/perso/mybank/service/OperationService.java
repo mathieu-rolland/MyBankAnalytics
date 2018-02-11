@@ -1,6 +1,10 @@
 package com.fr.perso.mybank.service;
 
 import com.fr.perso.mybank.service.dto.OperationDTO;
+
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -39,4 +43,7 @@ public interface OperationService {
      * @param id the id of the entity
      */
     void delete(Long id);
+    
+    List<OperationDTO> findbetweenDate(String start, String end);
+    
 }
