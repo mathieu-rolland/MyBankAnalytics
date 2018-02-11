@@ -141,7 +141,9 @@ public class BankAccount implements Serializable {
     	for( Operation op : operations ) {
     		operationsStr += op + ", ";
     	}
-    	operationsStr = operationsStr.substring(0, operationsStr.length() - (" , ".length()) );
+    	if ( operationsStr != null && operationsStr.length() > " , ".length() ) {
+    			operationsStr = operationsStr.substring(0, operationsStr.length() - (" , ".length()) );
+    	}
         return "BankAccount{" +
     		"Owner=" + owner +
             "id=" + getId() +

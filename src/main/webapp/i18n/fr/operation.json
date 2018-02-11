@@ -15,6 +15,7 @@
             "detail": {
                 "title": "Opération"
             },
+            "details":"Détails",
             "amount": "Montant",
             "date": "Date",
             "category": "Categorie",

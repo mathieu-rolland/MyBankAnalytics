@@ -16,12 +16,12 @@
                 "question": "Êtes-vous sûr de vouloir importer un CSV pour ce compte {{ id }} ?"
             },
             "detail": {
-                "title": "Bank Account"
+                "title": "Compte bancaire"
             },
-            "name": "Name",
-            "accountBalance": "Account Balance",
-            "operations": "Operations",
-            "owner": "Owner"
+            "name": "Nom",
+            "accountBalance": "Solde",
+            "operations": "Opérations",
+            "owner": "Propriétaire"
         }
     }
 }
