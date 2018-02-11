@@ -19,6 +19,7 @@
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="amount"><span jhiTranslate="myBankAnalyticsApp.operation.amount">Amount</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="date"><span jhiTranslate="myBankAnalyticsApp.operation.date">Date</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="label"><span jhiTranslate="myBankAnalyticsApp.operation.label">label</span> <span class="fa fa-sort"></span></span></th>
             <th jhiSortBy="accountId"><span jhiTranslate="myBankAnalyticsApp.operation.account">Account</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
@@ -28,6 +29,7 @@
                 <td><a [routerLink]="['../operation-my-bank-analytics', operation.id ]">{{operation.id}}</a></td>
                 <td>{{operation.amount}}</td>
                 <td>{{operation.date | date:'mediumDate'}}</td>
+                <td>{{operation.label}}</td>
                 <td>
                     <div *ngIf="operation.accountId">
                         <a [routerLink]="['../bank-account-my-bank-analytics', operation.accountId  ]" >{{operation.accountName}}</a>

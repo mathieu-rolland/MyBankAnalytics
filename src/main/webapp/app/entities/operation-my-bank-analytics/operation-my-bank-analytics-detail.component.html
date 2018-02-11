@@ -12,6 +12,14 @@
         <dd>
             <span>{{operation.date | date:'mediumDate'}}</span>
         </dd>
+        <dt><span jhiTranslate="myBankAnalyticsApp.operation.label">Label</span></dt>
+        <dd>
+            <span>{{operation.label}}</span>
+        </dd>
+        <dt><span jhiTranslate="myBankAnalyticsApp.operation.details">Details</span></dt>
+        <dd>
+            <span>{{operation.details}}</span>
+        </dd>
         <dt><span jhiTranslate="myBankAnalyticsApp.operation.category">Category</span></dt>
         <dd>
             <span *ngFor="let category of operation.categories; let last = last">

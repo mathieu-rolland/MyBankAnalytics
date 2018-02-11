@@ -71,8 +71,8 @@ public class Operation implements Serializable {
         return this;
     }
 
-    public void setdetails(String details) {
-        this.label = details;
+    public void setDetails(String details) {
+        this.details = details;
     }
     
     public String getDetails() {
@@ -174,6 +174,8 @@ public class Operation implements Serializable {
             "id=" + getId() +
             ", amount=" + getAmount() +
             ", date='" + getDate() + "'" +
+            ", label='" + getLabel() + "'" +
+            ", details='" + getDetails() + "'" +
             "}";
     }
 }

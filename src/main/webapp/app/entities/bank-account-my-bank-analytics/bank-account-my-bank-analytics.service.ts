@@ -50,9 +50,8 @@ export class BankAccountMyBankAnalyticsService {
 
         const formData: FormData = new FormData();
         formData.append('fileKey' ,  file , file.name );
-        console.log('Launch upload' + this.resourceUrl+"/" + id + "/import");
 
-        return this.http.post( this.resourceUrl+"/" + id + "/import", formData ).map((res: Response) => {
+        return this.http.post( this.resourceUrl + '/' + id + '/import', formData ).map((res: Response) => {
             return res;
         });
     }

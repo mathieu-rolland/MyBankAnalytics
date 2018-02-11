@@ -7,6 +7,8 @@ export class OperationMyBankAnalytics implements BaseEntity {
         public date?: any,
         public categories?: BaseEntity[],
         public accountId?: number,
+        public label?: string,
+        public details?: string,
     ) {
     }
 }

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { JhiEventManager } from 'ng-jhipster';
 
-import { Account, LoginService, Principal } from '../shared';
+import { Account, LoginService, ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../shared';
 
 import { Chart } from 'angular-highcharts';
+import { BankAccountMyBankAnalyticsService, BankAccountMyBankAnalytics } from '../entities/bank-account-my-bank-analytics';
+import { OperationMyBankAnalyticsService, OperationMyBankAnalytics } from '../entities/operation-my-bank-analytics';
 
 @Component({
     selector: 'jhi-home',
@@ -17,7 +19,7 @@ export class HomeComponent implements OnInit {
     account: Account;
     options: Object;
 
-     chart = new Chart({
+    chart = new Chart({
       chart: {
         type: 'line'
       },
@@ -33,10 +35,15 @@ export class HomeComponent implements OnInit {
       }]
     });
 
+    itemsPerPage: 99;
+    page: any;
+
     constructor(
         private principal: Principal,
         private loginService: LoginService,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private accountService: BankAccountMyBankAnalyticsService,
+        private operationService: OperationMyBankAnalyticsService
     ) {}
 
     ngOnInit() {
@@ -45,6 +52,39 @@ export class HomeComponent implements OnInit {
         });
         this.registerAuthenticationSuccess();
 
+        this.loadAccountData();
+
+    }
+
+    loadAccountData() {
+        console.log(this.accountService);
+        this.accountService.query({page: this.page,
+            size: this.itemsPerPage
+        }).subscribe(
+            (res: ResponseWrapper) => this.onAccountsFetch(res.json, res.headers),
+            (res: ResponseWrapper) => this.onError(res.json)
+        );
+    }
+
+    onAccountsFetch( data , header ) {
+        console.log(data);
+        for (let i = 0; i < data.length; i++) {
+            const account: BankAccountMyBankAnalytics = data[i];
+            this.operationService.query().subscribe( 
+                    
+                    (res : ResponseWrapper) => this.buildChart(res.json),
+                    (res: ResponseWrapper) => this.onError(res.json)
+                )
+        }
+    }
+
+    buildChart(data){
+        console.log(data);
+    }
+
+    onError( response ) {
+         //TODO : improve error treatment
+        console.log(response);
     }
 
     registerAuthenticationSuccess() {
