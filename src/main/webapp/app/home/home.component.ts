@@ -64,10 +64,7 @@ export class HomeComponent implements OnInit {
     }
 
     ngAfterViewInit() {
-        this.elementRef.nativeElement.querySelector('.controller.next')
-                                .addEventListener('click', this.onNextClick.bind(this));
-        this.elementRef.nativeElement.querySelector('.controller.previous')
-                                .addEventListener('click', this.onPreviousClick.bind(this));
+        this.addListenerOnController();
     }
 
     ngOnInit() {
@@ -95,14 +92,7 @@ export class HomeComponent implements OnInit {
                 type: 'pie'
             },
             title: {
-                useHTML: true,
-                text: 
-                    '<img class="controller next" src="content/next.png" alt="next" (click)="nextMonth()"/>'
-                    + 'Repartition des dépenses du '
-                    + DateUtils.formatDate('dd/MM/yyyy', this.startDate )
-                    +' au '
-                    + DateUtils.formatDate('dd/MM/yyyy' , this.endDate )
-                    + '<img class="controller previous" src="content/previous.png" alt="next" (click)="previousMonth()"/>'
+                useHTML: true
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.y:.1f} €</b>'
@@ -132,12 +122,7 @@ export class HomeComponent implements OnInit {
                 type: 'pie'
             },
             title: {
-                useHTML: true,
-                text:
-                     'Répartition des apports mensuel du '
-                     + DateUtils.formatDate('dd/MM/yyyy', this.startDate )
-                     +' au '
-                     + DateUtils.formatDate('dd/MM/yyyy' , this.endDate )
+                useHTML: true
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -160,44 +145,51 @@ export class HomeComponent implements OnInit {
     }
 
     onNextClick(){
-        console.log('click');
         let newDate: Date = this.startDate;
         newDate.setMonth( newDate.getMonth() + 1  );
         this.startDate = DateUtils.firstDayOftTheMonth( newDate );
         this.endDate = DateUtils.lastDayOfTheMonth( newDate );
+
         this.loadAccountData();
-        this.updateChartsTitle();
+
     }
 
     onPreviousClick(){
-        console.log('click');
+        
         let newDate: Date = this.startDate;
         newDate.setMonth( newDate.getMonth() - 1  );
         this.startDate = DateUtils.firstDayOftTheMonth( newDate );
         this.endDate = DateUtils.lastDayOfTheMonth( newDate );
+
         this.loadAccountData();
-        console.log( this.startDate );
-        this.updateChartsTitle();
+
     }
 
     updateChartsTitle(){
 
-        this.chartDebit.options.title.text = '<img class="controller next" src="content/next.png" alt="next" (click)="nextMonth()"/>'
+        this.chartCredit.ref.setTitle({ 'text': 
+                    'Répartition des apports mensuel du '
+                     + DateUtils.formatDate('dd/MM/yyyy', this.startDate )
+                     +' au '
+                     + DateUtils.formatDate('dd/MM/yyyy' , this.endDate )
+                    });
+
+        this.chartDebit.ref.setTitle({ 'text': '<img class="controller next" src="content/next.png" alt="next" (click)="nextMonth()"/>'
                     + 'Repartition des dépenses du '
                     + DateUtils.formatDate('dd/MM/yyyy', this.startDate )
                     +' au '
                     + DateUtils.formatDate('dd/MM/yyyy' , this.endDate )
-                    + '<img class="controller previous" src="content/previous.png" alt="next" (click)="previousMonth()"/>';
+                    + '<img class="controller previous" src="content/previous.png" alt="next" (click)="previousMonth()"/>' });
 
-        this.chartCredit.options.title.text = '<img class="controller next" src="content/next.png" alt="next" />' 
-                     + 'Répartition des apports mensuel du '
-                     + DateUtils.formatDate('dd/MM/yyyy', this.startDate )
-                     +' au '
-                     + DateUtils.formatDate('dd/MM/yyyy' , this.endDate )
-                     + '<img class="controller previous" src="content/previous.png" alt="previous" />' ;
+        this.addListenerOnController();
 
-        console.log(this.chartDebit.options.title.text);
+    }
 
+    addListenerOnController(){
+        this.elementRef.nativeElement.querySelector('.controller.next')
+                                .addEventListener('click', this.onNextClick.bind(this));
+        this.elementRef.nativeElement.querySelector('.controller.previous')
+                                .addEventListener('click', this.onPreviousClick.bind(this));
     }
 
     loadAccountData() {
@@ -290,9 +282,11 @@ export class HomeComponent implements OnInit {
         for( const obj in credit.data){
            credit.data.push( credit.data[obj] );
         }
-        console.log(debit);
+  
         this.chartDebit.addSerie( debit );
         this.chartCredit.addSerie( credit );
+        this.updateChartsTitle();
+
     }
 
     onError( response ) {
