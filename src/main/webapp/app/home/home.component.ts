@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { JhiEventManager } from 'ng-jhipster';
 
-import { Account, LoginService, ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../shared';
+import { Account, LoginService, ITEMS_PER_PAGE, Principal, ResponseWrapper, DateUtils } from '../shared';
 
 import { Chart } from 'angular-highcharts';
 import { BankAccountMyBankAnalyticsService, BankAccountMyBankAnalytics } from '../entities/bank-account-my-bank-analytics';
@@ -21,6 +22,9 @@ export class HomeComponent implements OnInit {
     options: Object;
 
     bankAccounts: BankAccountMyBankAnalytics[];
+
+    starDate: Date;
+    endDate: Date;
 
     /*chart = new Chart({
       chart: {
@@ -57,12 +61,21 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit() {
+
         this.principal.identity().then((account) => {
             this.account = account;
         });
         this.registerAuthenticationSuccess();
 
         this.loadAccountData();
+
+        let selectMonth: Date = new Date();
+        selectMonth.setMonth( selectMonth.getMonth() - 1 );  
+
+        //Calcul des dates : 
+        this.starDate = DateUtils.firstDayOftTheMonth( selectMonth );
+        this.endDate = DateUtils.lastDayOfTheMonth( selectMonth );
+
 
         this.chartDebit = new Chart( {
            chart: {
@@ -72,7 +85,10 @@ export class HomeComponent implements OnInit {
                 type: 'pie'
             },
             title: {
-                text: 'Repartition des dépense sur les données disponible'
+                text: 'Repartition des dépenses du '
+                     + DateUtils.formatDate('dd/MM/yyyy', this.starDate )
+                     +' au '
+                     + DateUtils.formatDate('dd/MM/yyyy' , this.endDate )
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.y:.1f} €</b>'
@@ -94,7 +110,6 @@ export class HomeComponent implements OnInit {
         } );
 
 
-
         this.chartCredit = new Chart( {
            chart: {
                 plotBackgroundColor: null,
@@ -103,7 +118,10 @@ export class HomeComponent implements OnInit {
                 type: 'pie'
             },
             title: {
-                text: 'Répartition des apports mensuel sur les données disponibles'
+                text: 'Répartition des apports mensuel du '
+                     + DateUtils.formatDate('dd/MM/yyyy', this.starDate )
+                     +' au '
+                     + DateUtils.formatDate('dd/MM/yyyy' , this.endDate )
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -137,9 +155,13 @@ export class HomeComponent implements OnInit {
     }
 
     onAccountsFetch( data , header ) {
+        var datePipe = new DatePipe('fr-FR');
         for (let i = 0; i < data.length; i++) {
             const account: BankAccountMyBankAnalytics = data[i];
-            this.operationService.query({size: this.itemsPerPage}).subscribe(
+            this.operationService.findBetweenDate(
+                this.starDate,
+                this.endDate
+             ).subscribe(
                     (res: ResponseWrapper) => this.registerOperationForAccount( res.json , account),
                     (res: ResponseWrapper) => this.onError(res.json)
             )

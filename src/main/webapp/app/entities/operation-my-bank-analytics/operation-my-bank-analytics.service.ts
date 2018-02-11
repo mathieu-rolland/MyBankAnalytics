@@ -1,12 +1,13 @@
+import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, URLSearchParams, BaseRequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { SERVER_API_URL } from '../../app.constants';
 
 import { JhiDateUtils } from 'ng-jhipster';
 
 import { OperationMyBankAnalytics } from './operation-my-bank-analytics.model';
-import { ResponseWrapper, createRequestOption } from '../../shared';
+import { ResponseWrapper, createRequestOption, DateUtils } from '../../shared';
 
 @Injectable()
 export class OperationMyBankAnalyticsService {
@@ -46,6 +47,20 @@ export class OperationMyBankAnalyticsService {
 
     delete(id: number): Observable<Response> {
         return this.http.delete(`${this.resourceUrl}/${id}`);
+    }
+
+    findBetweenDate(d1: Date, d2:Date): Observable<ResponseWrapper> {
+
+        const options: BaseRequestOptions = new BaseRequestOptions();
+
+        const params: URLSearchParams = new URLSearchParams();
+        params.set( 'start' , DateUtils.formatDate ( 'dd/MM/yyyy' , d1 ) );
+        params.set( 'end' , DateUtils.formatDate ( 'dd/MM/yyyy' , d2 ) );
+
+        options.params = params;
+
+        return this.http.get(this.resourceUrl + '/interval/' , options)
+            .map((res: Response) => this.convertResponse(res));
     }
 
     private convertResponse(res: Response): ResponseWrapper {

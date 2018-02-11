@@ -5,6 +5,14 @@ import com.fr.perso.mybank.domain.Operation;
 import com.fr.perso.mybank.repository.OperationRepository;
 import com.fr.perso.mybank.service.dto.OperationDTO;
 import com.fr.perso.mybank.service.mapper.OperationMapper;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -73,6 +81,23 @@ public class OperationServiceImpl implements OperationService {
         return operationMapper.toDto(operation);
     }
 
+    @Transactional(readOnly = true)
+    public List<OperationDTO> findbetweenDate(String start, String end){
+    	
+    	LocalDate dStart = null, dEnd = null;
+    	if( start != null ) {
+				dStart = LocalDate.parse( start , DateTimeFormatter.ofPattern("dd/MM/yyyy") );
+    	}
+    	if( end != null ) {
+				dEnd = LocalDate.parse( end , DateTimeFormatter.ofPattern("dd/MM/yyyy") );
+    	}
+    	if( dStart != null && dEnd != null ) {
+    		List<Operation> ops = operationRepository.findBetweenDate(dStart, dEnd);
+    		return operationMapper.toDto(ops);
+    	}
+    	return null;
+    }
+    
     /**
      * Delete the operation by id.
      *

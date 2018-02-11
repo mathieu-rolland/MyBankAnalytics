@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -123,4 +123,16 @@ public class OperationResource {
         operationService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+    
+    @GetMapping("/operations/interval")
+    @Timed
+    public ResponseEntity<List<OperationDTO>> getOperationsBetweenDate(
+    			@RequestParam(name="start") String start,
+    			@RequestParam(name="end") String end) 
+    {
+        log.debug("REST request to get a page of Operations");
+        List<OperationDTO> ops = operationService.findbetweenDate( start, end);
+        return new ResponseEntity<>(ops, HttpStatus.OK);
+    }
+    
 }
