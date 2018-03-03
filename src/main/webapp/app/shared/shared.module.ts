@@ -18,7 +18,7 @@ import {
 @NgModule({
     imports: [
         MyBankAnalyticsSharedLibsModule,
-        MyBankAnalyticsSharedCommonModule
+        MyBankAnalyticsSharedCommonModule,
     ],
     declarations: [
         HasAnyAuthorityDirective
@@ -32,12 +32,12 @@ import {
         JhiTrackerService,
         AuthServerProvider,
         UserService,
-        DatePipe
+        DatePipe,
     ],
     exports: [
         MyBankAnalyticsSharedCommonModule,
         HasAnyAuthorityDirective,
-        DatePipe
+        DatePipe,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 

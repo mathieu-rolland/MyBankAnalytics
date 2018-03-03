@@ -21,7 +21,18 @@
           "src": "./content/images/logo-jhipster.png",
           "sizes": "512x512",
           "type": "image/png"
+      },
+      {    
+          "src": "./content/images/next.png",
+          "size": "980x980",
+          "type": "image/png"
+      },
+      {    
+          "src": "./content/images/previous.png",
+          "size": "980x980",
+          "type": "image/png"
       }
+
   ],
   "theme_color": "#000000",
   "background_color": "#e0e0e0",

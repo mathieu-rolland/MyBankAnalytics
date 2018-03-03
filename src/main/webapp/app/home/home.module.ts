@@ -4,11 +4,13 @@ import { RouterModule } from '@angular/router';
 import { MyBankAnalyticsSharedModule } from '../shared';
 
 import { HOME_ROUTE, HomeComponent } from './';
+import { ChartModule } from 'angular-highcharts';
 
 @NgModule({
     imports: [
         MyBankAnalyticsSharedModule,
-        RouterModule.forChild([ HOME_ROUTE ])
+        RouterModule.forChild([ HOME_ROUTE ]),
+        ChartModule
     ],
     declarations: [
         HomeComponent,

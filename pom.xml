@@ -543,7 +543,7 @@
                     <changeLogFile>src/main/resources/config/liquibase/master.xml</changeLogFile>
                     <diffChangeLogFile>src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
                     <driver>org.h2.Driver</driver>
-                    <url>jdbc:h2:file:./target/h2db/db/mybankanalytics</url>
+                    <url>jdbc:h2:file:./data/h2db/db/mybankanalytics</url>
                     <defaultSchemaName></defaultSchemaName>
                     <username>MyBankAnalytics</username>
                     <password></password>
@@ -844,7 +844,7 @@
                                     <arguments>install --force</arguments>
                                 </configuration>
                             </execution>
-                            <execution>
+                            <!--<execution>
                                 <id>webpack build test</id>
                                 <goals>
                                     <goal>yarn</goal>
@@ -854,7 +854,7 @@
                                     <arguments>run webpack:test</arguments>
                                     <yarnInheritsProxyConfigFromMaven>false</yarnInheritsProxyConfigFromMaven>
                                 </configuration>
-                            </execution>
+                            </execution>-->
                             <execution>
                                 <id>webpack build prod</id>
                                 <goals>
