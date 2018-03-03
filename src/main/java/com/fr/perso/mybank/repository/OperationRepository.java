@@ -22,7 +22,7 @@ public interface OperationRepository extends JpaRepository<Operation, Long> {
     @Query("select operation from Operation operation left join fetch operation.categories where operation.id =:id")
     Operation findOneWithEagerRelationships(@Param("id") Long id);
 
-    @Query("select operation from Operation operation where operation.date > :start and operation.date < :end")
+    @Query("select operation from Operation operation where operation.date >= :start and operation.date <= :end")
     List<Operation> findBetweenDate( @Param("start") LocalDate start , @Param("end") LocalDate end );
     
 }
