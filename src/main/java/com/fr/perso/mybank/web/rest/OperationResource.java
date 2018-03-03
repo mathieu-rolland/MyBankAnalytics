@@ -135,4 +135,15 @@ public class OperationResource {
         return new ResponseEntity<>(ops, HttpStatus.OK);
     }
     
+    @GetMapping("/operations/regular_fees")
+    @Timed
+    public ResponseEntity<List<OperationDTO>> getRegularFeesForMonth()
+    {
+    	log.debug( "resr request to get regular fees for current month" );
+    	List<OperationDTO> ops = operationService.findRegularFeesForCurrentMonth();
+    	return new ResponseEntity<>(ops , HttpStatus.OK);
+    	
+    }
+    
+    
 }

@@ -23,7 +23,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
     account: Account;
     options: Object;
 
+
     bankAccounts: BankAccountMyBankAnalytics[];
+    regularFees: OperationMyBankAnalytics[];
+
 
     startDate: Date;
     endDate: Date;
@@ -44,6 +47,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     ) {
 
         this.bankAccounts = [];
+        this.regularFees = [];
 
     }
 
@@ -184,6 +188,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
             (res: ResponseWrapper) => this.onAccountsFetch(res.json, res.headers),
             (res: ResponseWrapper) => this.onError(res.json)
         );
+
+        this.operationService.getRegularFees().subscribe(
+                (res: ResponseWrapper) => this.onRegularFeesFetch(res.json),
+                (res: ResponseWrapper) => this.onError(res.json)
+         );
+
+    }
+
+    onRegularFeesFetch( data ){
+        this.regularFees = data;
     }
 
     onAccountsFetch( data , header ) {

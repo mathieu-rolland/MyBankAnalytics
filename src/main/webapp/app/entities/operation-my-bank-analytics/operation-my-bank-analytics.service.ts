@@ -63,6 +63,13 @@ export class OperationMyBankAnalyticsService {
             .map((res: Response) => this.convertResponse(res));
     }
 
+    getRegularFees(): Observable<ResponseWrapper> {
+
+        return this.http.get( this.resourceUrl + '/regular_fees' )
+            .map( (res: Response) => this.convertResponse(res) );
+
+    }
+
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
         const result = [];

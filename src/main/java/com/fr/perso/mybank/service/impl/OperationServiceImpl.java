@@ -6,11 +6,9 @@ import com.fr.perso.mybank.repository.OperationRepository;
 import com.fr.perso.mybank.service.dto.OperationDTO;
 import com.fr.perso.mybank.service.mapper.OperationMapper;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -108,4 +106,18 @@ public class OperationServiceImpl implements OperationService {
         log.debug("Request to delete Operation : {}", id);
         operationRepository.delete(id);
     }
+
+	@Override
+	public List<OperationDTO> findRegularFeesForCurrentMonth() {
+		
+		
+		YearMonth yearMonth = YearMonth.of( LocalDate.now().getYear() , LocalDate.now().getMonth() ).minusMonths(1);
+		LocalDate startDate = LocalDate.of( yearMonth.getYear() , yearMonth.getMonthValue() , LocalDate.now().getDayOfMonth() ).minusMonths(1); 
+		LocalDate endDate = yearMonth.atEndOfMonth();
+		
+		log.debug("Find regular fees with date : start : " + startDate + " / end : " + endDate );
+		
+		List<Operation> ops = operationRepository.findRegularFeesForMonth( startDate , endDate );
+		return operationMapper.toDto(ops);
+	}
 }
