@@ -33,7 +33,7 @@ public class BankFactoryImpl implements IBankFactory {
 
 	@Override
 	public IParser createFortuneoParser() {
-		return new FortuneoParser();
+		return new FortuneoParser(this);
 	}
 	
 }

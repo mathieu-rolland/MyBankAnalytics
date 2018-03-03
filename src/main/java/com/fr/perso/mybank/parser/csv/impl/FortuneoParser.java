@@ -30,6 +30,11 @@ public class FortuneoParser extends GenericParser {
 	
 	private DateTimeFormatter datePattern;
 	
+	public FortuneoParser( IBankFactory factory ) {
+		super( factory );
+		this.datePattern = DateTimeFormatter.ofPattern( DATE_PATTERN );
+	}
+	
 	public FortuneoParser() {
 		super();
 		this.datePattern = DateTimeFormatter.ofPattern( DATE_PATTERN );
@@ -66,9 +71,9 @@ public class FortuneoParser extends GenericParser {
 					BigDecimal amount; 
 					if( isDebit( splittedLine ) 
 						&& splittedLine[COLUMN_OPERATION_DEBIT] != null ) {
-						amount = new BigDecimal( splittedLine[COLUMN_OPERATION_DEBIT].replaceAll(",", ".") );
+						amount = new BigDecimal( splittedLine[COLUMN_OPERATION_DEBIT].trim().replace(",", ".") );
 					}else if( splittedLine[COLUMN_OPERATION_CREDIT] != null ) {
-						amount = new BigDecimal( splittedLine[COLUMN_OPERATION_CREDIT].replaceAll(",", ".") );
+						amount = new BigDecimal( splittedLine[COLUMN_OPERATION_CREDIT].trim().replace(",", ".") );
 					}else {
 						log.warn( "Could not parse amount of line {}" , line );
 						continue;
