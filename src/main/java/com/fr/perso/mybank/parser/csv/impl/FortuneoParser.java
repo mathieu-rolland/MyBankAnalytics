@@ -92,7 +92,7 @@ public class FortuneoParser extends GenericParser {
 			}
 		}
 		
-		return 0;
+		return nbLineRead;
 	}
 
 	@Override
