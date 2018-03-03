@@ -30,6 +30,15 @@
                 <option [ngValue]="extendedUserOption.id" *ngFor="let extendedUserOption of extendedusers; trackBy: trackExtendedUserById">{{extendedUserOption.name}}</option>
             </select>
         </div>
+
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="myBankAnalyticsApp.bankAccount.parser" for="field_parser">Parser</label>
+            <select class="form-control" id="field_parser" name="parser" [(ngModel)]="bankAccount.parserType" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="parser.name" *ngFor="let parser of parsers; trackBy: trackId">{{parser.name}}</option>
+            </select>
+        </div>
+
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">

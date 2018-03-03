@@ -2,6 +2,7 @@ package com.fr.perso.mybank.service.impl;
 
 import com.fr.perso.mybank.service.BankAccountService;
 import com.fr.perso.mybank.domain.BankAccount;
+import com.fr.perso.mybank.domain.ParserType;
 import com.fr.perso.mybank.factory.IBankFactory;
 import com.fr.perso.mybank.parser.csv.IParser;
 import com.fr.perso.mybank.repository.BankAccountRepository;
@@ -10,7 +11,10 @@ import com.fr.perso.mybank.service.mapper.BankAccountMapper;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -97,16 +101,28 @@ public class BankAccountServiceImpl implements BankAccountService {
     }
 
 	@Override
-	public boolean importOprations(File file , Long bankAccountId) {
+	public boolean importOperations(File file , Long bankAccountId) {
 		
 		if( file == null ) {
 			return false;
 		}
 		
-		IParser parser = factory.createParser();
+		
+		BankAccount account = bankAccountRepository.findOne( bankAccountId );
+		
+		
+		IParser parser; 
+		if( ParserType.CAISSE_EPARGNE.equals( account.getParserType() ) ) {
+			parser = factory.createCaisseEpargneParser();
+		}else if( ParserType.FORTUNEO.equals( account.getParserType() ) ) {
+			parser = factory.createFortuneoParser();
+		}else {
+			log.error( "The parser type {} is not implemented" , account.getParserType() );
+			throw new NotImplementedException("The parser type "+ account.getParserType() +" is not implemented");
+		}
 		
 		parser.setFile( file );
-		BankAccount account = bankAccountRepository.findOne( bankAccountId );
+		
 		parser.setBankAccount( account );
 		
 		try {
@@ -119,10 +135,26 @@ public class BankAccountServiceImpl implements BankAccountService {
 			}
 			log.debug( "Nomber of line read : " + nbLineRead );
 		} catch (IOException e) {
+			log.error( "An error occured on parsing input file {}." , file == null ? "null" : file.getAbsolutePath()  );
+			e.printStackTrace();
+		} catch( Exception e) {
+			log.error( "An error occured on parsing input file {}." , file == null ? "null" : file.getAbsolutePath()  );
 			e.printStackTrace();
 		}
 		
 		return false;
+	}
+
+	@Override
+	public List<ParserType> getAllAvailableParser() {
+		
+		List<ParserType> parsers = new ArrayList<ParserType>();
+		
+		parsers.add( ParserType.FORTUNEO );
+		parsers.add( ParserType.CAISSE_EPARGNE );
+		
+		return parsers;
+		
 	}
 	
 }

@@ -55,6 +55,7 @@ public class CacheConfiguration {
             cm.createCache(com.fr.perso.mybank.domain.Category.class.getName() + ".categories", jcacheConfiguration);
             cm.createCache(com.fr.perso.mybank.domain.ExtendedUser.class.getName(), jcacheConfiguration);
             cm.createCache(com.fr.perso.mybank.domain.ExtendedUser.class.getName() + ".accounts", jcacheConfiguration);
+            cm.createCache(com.fr.perso.mybank.domain.ParserType.class.getName() , jcacheConfiguration );
             // jhipster-needle-ehcache-add-entry
         };
     }

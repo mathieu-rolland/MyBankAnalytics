@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+import com.fr.perso.mybank.domain.ParserType;
+
 /**
  * A DTO for the BankAccount entity.
  */
@@ -24,6 +26,8 @@ public class BankAccountDTO implements Serializable {
     private Long ownerId;
 
     private String ownerName;
+    
+    private ParserType parserType;
     
     public Long getId() {
         return id;
@@ -64,6 +68,14 @@ public class BankAccountDTO implements Serializable {
     public void setOwnerName(String extendedUserName) {
         this.ownerName = extendedUserName;
     }
+    
+	public ParserType getParserType() {
+		return parserType;
+	}
+
+	public void setParserType(ParserType parserType) {
+		this.parserType = parserType;
+	}
     
     @Override
     public boolean equals(Object o) {

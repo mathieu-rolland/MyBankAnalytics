@@ -1,7 +1,9 @@
 package com.fr.perso.mybank.service;
 
+import com.fr.perso.mybank.domain.ParserType;
 import com.fr.perso.mybank.service.dto.BankAccountDTO;
 import java.io.File;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,6 +44,8 @@ public interface BankAccountService {
      */
     void delete(Long id);
     
-	boolean importOprations(File file, Long bankAccountId);
+	boolean importOperations(File file, Long bankAccountId);
+
+	public List<ParserType> getAllAvailableParser();
     
 }

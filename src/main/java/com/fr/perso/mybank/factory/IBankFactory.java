@@ -10,6 +10,7 @@ public interface IBankFactory {
 	public BankAccount createBankAccount();
 	public Category createCategory();
 	public Operation createOperation();
-	public IParser createParser();
+	public IParser createCaisseEpargneParser();
+	public IParser createFortuneoParser();
 	
 }
