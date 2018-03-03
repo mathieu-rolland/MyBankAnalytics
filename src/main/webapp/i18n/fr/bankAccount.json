@@ -21,7 +21,8 @@
             "name": "Nom",
             "accountBalance": "Solde",
             "operations": "Opérations",
-            "owner": "Propriétaire"
+            "owner": "Propriétaire",
+            "parser": "Parser"
         }
     }
 }

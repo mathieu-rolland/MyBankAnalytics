@@ -7,6 +7,7 @@ import com.fr.perso.mybank.domain.Category;
 import com.fr.perso.mybank.domain.Operation;
 import com.fr.perso.mybank.parser.csv.IParser;
 import com.fr.perso.mybank.parser.csv.impl.CaisseEpargneParser;
+import com.fr.perso.mybank.parser.csv.impl.FortuneoParser;
 
 public class BankFactoryImpl implements IBankFactory {
 	
@@ -26,8 +27,13 @@ public class BankFactoryImpl implements IBankFactory {
 	}
 
 	@Override
-	public IParser createParser() {
+	public IParser createCaisseEpargneParser() {
 		return new CaisseEpargneParser(this);
+	}
+
+	@Override
+	public IParser createFortuneoParser() {
+		return new FortuneoParser();
 	}
 	
 }

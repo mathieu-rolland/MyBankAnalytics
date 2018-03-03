@@ -1,6 +1,7 @@
 package com.fr.perso.mybank.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.fr.perso.mybank.domain.ParserType;
 import com.fr.perso.mybank.service.BankAccountService;
 import com.fr.perso.mybank.web.rest.errors.BadRequestAlertException;
 import com.fr.perso.mybank.web.rest.util.HeaderUtil;
@@ -140,9 +141,15 @@ public class BankAccountResource {
         /*redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
 	*/
-    	boolean importStatus = bankAccountService.importOprations( result , id);
+    	boolean importStatus = bankAccountService.importOperations( result , id);
     	
     	
         return ResponseEntity.ok().headers( HeaderUtil.createEntityUpdateAlert( ENTITY_NAME , importStatus + "") ).build();
     }
+    
+    @GetMapping("/bank-accounts/available_parsers")
+    public ResponseEntity<List<ParserType>> getAllAvailableParser(){
+    	return ResponseEntity.ok( bankAccountService.getAllAvailableParser() );
+    }
+    
 }
