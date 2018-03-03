@@ -45,6 +45,16 @@ public class CacheConfiguration {
             cm.createCache(com.fr.perso.mybank.domain.User.class.getName(), jcacheConfiguration);
             cm.createCache(com.fr.perso.mybank.domain.Authority.class.getName(), jcacheConfiguration);
             cm.createCache(com.fr.perso.mybank.domain.User.class.getName() + ".authorities", jcacheConfiguration);
+            cm.createCache(com.fr.perso.mybank.domain.BankAccount.class.getName(), jcacheConfiguration);
+            cm.createCache(com.fr.perso.mybank.domain.BankAccount.class.getName() + ".operations", jcacheConfiguration);
+            cm.createCache(com.fr.perso.mybank.domain.Operation.class.getName(), jcacheConfiguration);
+            cm.createCache(com.fr.perso.mybank.domain.Operation.class.getName() + ".categories", jcacheConfiguration);
+            cm.createCache(com.fr.perso.mybank.domain.Category.class.getName(), jcacheConfiguration);
+            cm.createCache(com.fr.perso.mybank.domain.Category.class.getName() + ".parents", jcacheConfiguration);
+            cm.createCache(com.fr.perso.mybank.domain.Category.class.getName() + ".operations", jcacheConfiguration);
+            cm.createCache(com.fr.perso.mybank.domain.Category.class.getName() + ".categories", jcacheConfiguration);
+            cm.createCache(com.fr.perso.mybank.domain.ExtendedUser.class.getName(), jcacheConfiguration);
+            cm.createCache(com.fr.perso.mybank.domain.ExtendedUser.class.getName() + ".accounts", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

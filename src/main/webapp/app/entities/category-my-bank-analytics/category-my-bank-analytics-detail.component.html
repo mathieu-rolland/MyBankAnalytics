@@ -1,0 +1,32 @@
+
+<div *ngIf="category">
+    <h2><span jhiTranslate="myBankAnalyticsApp.category.detail.title">Category</span> {{category.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="myBankAnalyticsApp.category.label">Label</span></dt>
+        <dd>
+            <span>{{category.label}}</span>
+        </dd>
+        <dt><span jhiTranslate="myBankAnalyticsApp.category.parent">Parent</span></dt>
+        <dd>
+            <span *ngFor="let parent of category.parents; let last = last">
+                <a [routerLink]="['/category-my-bank-analytics', parent?.id ]">{{parent.id}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'category-my-bank-analytics/'+ category.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

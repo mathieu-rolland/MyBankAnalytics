@@ -1,0 +1,40 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "category",
+            "relationshipName": "parent",
+            "otherEntityName": "category",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "operations",
+            "otherEntityName": "operation",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "category"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "category",
+            "otherEntityName": "category",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "parent"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "label",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20180127161801",
+    "entityTableName": "category",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "angularJSSuffix": "myBankAnalytics"
+}
