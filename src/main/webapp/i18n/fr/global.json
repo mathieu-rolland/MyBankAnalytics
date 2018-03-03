@@ -83,7 +83,11 @@
             }
         },
         "field": {
-            "id": "ID"
+            "id": "ID",
+            "amount": "Montant",
+            "date": "Date",
+            "categories": "Catégories",
+            "label": "Libellé"
         },
         "ribbon": {
             "dev":"Développement"
