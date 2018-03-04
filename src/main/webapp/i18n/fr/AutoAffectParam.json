@@ -1,0 +1,14 @@
+{
+	"autoAffectParam" : {
+		"home" : {
+			"title" : "Paramètre d'affectation automatique",
+			"createLabel": "Créer un nouveau paramétrage",
+			"createOrEditLabel": "Créer ou éditer un paramétrage",
+			"category": "Catégorie"
+		},
+		"param" :{
+			"regex": "Expression régulière",
+			"category": "Catégorie"
+		}
+	}
+}

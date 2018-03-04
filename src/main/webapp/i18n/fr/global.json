@@ -11,7 +11,8 @@
                 "operationMyBankAnalytics": "Operation",
                 "categoryMyBankAnalytics": "Category",
                 "extendedUserMyBankAnalytics": "Extended User",
-                "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+                "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
+                "auto-affect-parameter": "Paramétrage auto affectation"
             },
             "account": {
                 "main": "Compte",
