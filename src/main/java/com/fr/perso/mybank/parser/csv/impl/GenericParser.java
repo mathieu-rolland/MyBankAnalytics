@@ -74,7 +74,7 @@ public abstract class GenericParser implements IParser {
 	}
 
 	@Override
-	public int parse() throws FileNotFoundException,IOException, Exception  {
+	public List<Operation> parse() throws FileNotFoundException,IOException, Exception  {
 
 		log.info( "Start to read file {}" , file.getAbsolutePath() );
 		
@@ -86,14 +86,14 @@ public abstract class GenericParser implements IParser {
 		int nbSkippedLine = skipLine(reader, nbLineRead);
 		log.info( "Number of line skipped : {}" , nbSkippedLine );
 		
-		nbLineRead = parserFileContent( reader );
+		List<Operation> operations = parserFileContent( reader );
 		log.info( "End of parsing file. {} operations have been read." , account.getOperations().size() );
 		
-		return nbLineRead;
+		return operations;
 	}
 
 	public abstract int parseFileHeader( BufferedReader reader ) throws IOException, Exception;
-	public abstract int parserFileContent( BufferedReader reader ) throws IOException;
+	public abstract List<Operation> parserFileContent( BufferedReader reader ) throws IOException;
 	public abstract int skipLine( BufferedReader reader , int currentLine ) throws IOException;
 	
 	@Override

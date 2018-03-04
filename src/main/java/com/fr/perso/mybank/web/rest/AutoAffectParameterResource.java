@@ -88,5 +88,15 @@ public class AutoAffectParameterResource {
 		AutoAffectParameterDTO result = autoAffectParamService.find(id);
 		return ResponseEntity.ok( result );
 	}
+
+	
+	
+	@GetMapping("/autoaffectparameter/apply")
+	@Timed
+	public ResponseEntity<Void> applyAutoAffectParameters(){
+		log.debug( "Start to apply parameter on existing operations ");
+		autoAffectParamService.applyParametersOnExistingOperations();
+		return ResponseEntity.ok().build();
+	}
 	
 }

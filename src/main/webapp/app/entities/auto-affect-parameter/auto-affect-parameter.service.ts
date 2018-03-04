@@ -49,6 +49,10 @@ export class AutoAffectParameterService {
         });
     }
 
+    applyParameter():Observable<Response>{
+        return this.http.get( this.resourceUrl + "/apply" );
+    }
+
 	private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
         const result = [];

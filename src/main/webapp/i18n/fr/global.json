@@ -106,7 +106,8 @@
             "import": "Importer",
             "open": "Ouvrir",
             "save": "Sauvegarder",
-            "view": "Voir"
+            "view": "Voir",
+            "apply": "Appliquer"
         },
         "import":{
             "title": "Importer un fichier d'opérations"

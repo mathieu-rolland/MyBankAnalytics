@@ -1,7 +1,9 @@
 package com.fr.perso.mybank.service.impl;
 
+import com.fr.perso.mybank.service.AutoAffectParameterService;
 import com.fr.perso.mybank.service.BankAccountService;
 import com.fr.perso.mybank.domain.BankAccount;
+import com.fr.perso.mybank.domain.Operation;
 import com.fr.perso.mybank.domain.ParserType;
 import com.fr.perso.mybank.factory.IBankFactory;
 import com.fr.perso.mybank.parser.csv.IParser;
@@ -17,6 +19,7 @@ import java.util.List;
 import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -37,6 +40,9 @@ public class BankAccountServiceImpl implements BankAccountService {
     private final BankAccountMapper bankAccountMapper;
 
     private final IBankFactory factory;
+    
+    @Autowired
+    private AutoAffectParameterService parameterService;
     
     public BankAccountServiceImpl(
     			BankAccountRepository bankAccountRepository, 
@@ -59,6 +65,13 @@ public class BankAccountServiceImpl implements BankAccountService {
         BankAccount bankAccount = bankAccountMapper.toEntity(bankAccountDTO);
         bankAccount = bankAccountRepository.save(bankAccount);
         return bankAccountMapper.toDto(bankAccount);
+    }
+    
+    @Override
+    public BankAccount save(BankAccount bankAccount) {
+        log.debug("Request to save BankAccount : {}", bankAccount);
+        BankAccount updatedBankAccount = bankAccountRepository.save(bankAccount);
+        return updatedBankAccount;
     }
 
     /**
@@ -107,11 +120,9 @@ public class BankAccountServiceImpl implements BankAccountService {
 			return false;
 		}
 		
-		
 		BankAccount account = bankAccountRepository.findOne( bankAccountId );
 		
-		
-		IParser parser; 
+		IParser parser;
 		if( ParserType.CAISSE_EPARGNE.equals( account.getParserType() ) ) {
 			parser = factory.createCaisseEpargneParser();
 		}else if( ParserType.FORTUNEO.equals( account.getParserType() ) ) {
@@ -122,18 +133,26 @@ public class BankAccountServiceImpl implements BankAccountService {
 		}
 		
 		parser.setFile( file );
-		
 		parser.setBankAccount( account );
 		
 		try {
-			int nbLineRead = parser.parse();
-			BankAccount updatedAccount = parser.getBankAccount();
-			if( updatedAccount != null && updatedAccount.getOperations().size() > 0) {
-				log.debug( "{}", updatedAccount );
-				bankAccountRepository.save( updatedAccount );
-				log.debug( "{}", updatedAccount );
+			List<Operation> operations = parser.parse();
+			
+			if( operations != null ) {
+				BankAccount updatedAccount = parser.getBankAccount();
+				parameterService.overrideOperationsCategory( operations );
+				
+				operations.forEach( updatedAccount::addOperation ) ; 
+				
+				if( operations.size() > 0) {
+					log.debug( "{}", updatedAccount );
+					bankAccountRepository.save( updatedAccount );
+					log.debug( "{}", updatedAccount );
+				}
+				log.debug( "Nomber of operations read : " + operations.size() );
+			}else {
+				log.warn( "No operations was generated with the file {} " + file == null ? "null" : file.getAbsolutePath() );
 			}
-			log.debug( "Nomber of line read : " + nbLineRead );
 		} catch (IOException e) {
 			log.error( "An error occured on parsing input file {}." , file == null ? "null" : file.getAbsolutePath()  );
 			e.printStackTrace();
@@ -147,14 +166,17 @@ public class BankAccountServiceImpl implements BankAccountService {
 
 	@Override
 	public List<ParserType> getAllAvailableParser() {
-		
 		List<ParserType> parsers = new ArrayList<ParserType>();
 		
 		parsers.add( ParserType.FORTUNEO );
 		parsers.add( ParserType.CAISSE_EPARGNE );
 		
 		return parsers;
-		
+	}
+
+	@Override
+	public Page<BankAccount> findAllHasEntity(Pageable pageable) {
+		return bankAccountRepository.findAll(pageable);
 	}
 	
 }
