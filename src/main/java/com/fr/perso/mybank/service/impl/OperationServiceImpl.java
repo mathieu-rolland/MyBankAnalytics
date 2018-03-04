@@ -112,7 +112,7 @@ public class OperationServiceImpl implements OperationService {
 		
 		
 		YearMonth yearMonth = YearMonth.of( LocalDate.now().getYear() , LocalDate.now().getMonth() ).minusMonths(1);
-		LocalDate startDate = LocalDate.of( yearMonth.getYear() , yearMonth.getMonthValue() , LocalDate.now().getDayOfMonth() ).minusMonths(1); 
+		LocalDate startDate = LocalDate.of( yearMonth.getYear() , yearMonth.getMonthValue() , LocalDate.now().getDayOfMonth() ); 
 		LocalDate endDate = yearMonth.atEndOfMonth();
 		
 		log.debug("Find regular fees with date : start : " + startDate + " / end : " + endDate );
