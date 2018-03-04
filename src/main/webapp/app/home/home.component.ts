@@ -60,9 +60,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.principal.identity().then((account) => {
             this.account = account;
         });
-        this.registerAuthenticationSuccess();
 
-        this.loadAccountData();
+        this.registerAuthenticationSuccess();
 
         const selectMonth: Date = new Date();
         selectMonth.setMonth( selectMonth.getMonth() - 1 );
@@ -128,6 +127,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
             },
             series: []
         } );
+
+        this.loadData();
+
     }
 
     onNextClick() {
@@ -136,7 +138,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.startDate = DateUtils.firstDayOftTheMonth( newDate );
         this.endDate = DateUtils.lastDayOfTheMonth( newDate );
 
-        this.loadAccountData();
+        this.loadData();
 
     }
 
@@ -147,7 +149,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.startDate = DateUtils.firstDayOftTheMonth( newDate );
         this.endDate = DateUtils.lastDayOfTheMonth( newDate );
 
-        this.loadAccountData();
+        this.loadData();
 
     }
 
@@ -178,16 +180,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
                                 .addEventListener('click', this.onPreviousClick.bind(this));
     }
 
-    loadAccountData() {
+    loadData() {
 
         this.bankAccounts = [];
 
-        this.accountService.query({page: this.page,
-            size: this.itemsPerPage
-        }).subscribe(
-            (res: ResponseWrapper) => this.onAccountsFetch(res.json, res.headers),
-            (res: ResponseWrapper) => this.onError(res.json)
-        );
+        this.getAllOperations();
 
         this.operationService.getRegularFees().subscribe(
                 (res: ResponseWrapper) => this.onRegularFeesFetch(res.json),
@@ -208,27 +205,17 @@ export class HomeComponent implements OnInit, AfterViewInit {
         }
     }
 
-    onAccountsFetch( data , header ) {
-        for (let i = 0; i < data.length; i++) {
-            const account: BankAccountMyBankAnalytics = data[i];
-            this.operationService.findBetweenDate(
-                this.startDate,
-                this.endDate
-             ).subscribe(
-                    (res: ResponseWrapper) => this.registerOperationForAccount( res.json , account),
-                    (res: ResponseWrapper) => this.onError(res.json)
-            )
-        }
-
+    getAllOperations() {
+        this.operationService.findBetweenDate(
+            this.startDate,
+            this.endDate
+         ).subscribe(
+                (res: ResponseWrapper) => this.generatePiechart( res.json ),
+                (res: ResponseWrapper) => this.onError(res.json)
+        )
     }
 
-    registerOperationForAccount( operations , account ) {
-        account.operations = operations;
-        this.bankAccounts.push(account);
-        this.generatePiechart( this.bankAccounts );
-    }
-
-    generatePiechart( bankAccounts ) {
+    generatePiechart( operations ) {
 
         this.chartCredit.removeSerie(0);
         this.chartDebit.removeSerie(0);
@@ -245,33 +232,31 @@ export class HomeComponent implements OnInit, AfterViewInit {
         };
         credit.data = [];
 
-        for (let i = 0; i < bankAccounts.length; i++) {
-            const operations: OperationMyBankAnalytics[] = bankAccounts[i].operations;
-            for( let j = 0 ; j < operations.length ; j++ ) {
-                const operation: OperationMyBankAnalytics = operations[j];
-                const category: CategoryMyBankAnalytics = operation.categories.length == 0 ? null : operation.categories[0];
+        for( let j = 0 ; j < operations.length ; j++ ) {
 
-                const chartLabel: string = category == null ? 'TO BE DEFINED' : category.label;
+            const operation: OperationMyBankAnalytics = operations[j];
+            const category: CategoryMyBankAnalytics = operation.categories.length == 0 ? null : operation.categories[0];
 
-                if( operation.amount < 0 ) {
+            const chartLabel: string = category == null ? 'TO BE DEFINED' : category.label;
 
-                    if( debit.data[chartLabel] ) {
-                        debit.data[chartLabel].y += Math.abs(operation.amount);
-                    } else {
-                        debit.data[ chartLabel ] = {
-                            'name': chartLabel,
-                            'y': Math.abs(operation.amount)
-                        };
-                    }
+            if( operation.amount < 0 ) {
+
+                if( debit.data[chartLabel] ) {
+                    debit.data[chartLabel].y += Math.abs(operation.amount);
+                } else {
+                    debit.data[ chartLabel ] = {
+                        'name': chartLabel,
+                        'y': Math.abs(operation.amount)
+                    };
+                }
+            }else{
+                if( credit.data[ chartLabel ] ) {
+                    credit.data[ chartLabel ].y += operation.amount;
                 }else{
-                    if( credit.data[ chartLabel ] ) {
-                        credit.data[ chartLabel ].y += operation.amount;
-                    }else{
-                        credit.data[ chartLabel ] = {
-                            'name': chartLabel,
-                            'y': operation.amount
-                        };
-                    }
+                    credit.data[ chartLabel ] = {
+                        'name': chartLabel,
+                        'y': operation.amount
+                    };
                 }
             }
         }
