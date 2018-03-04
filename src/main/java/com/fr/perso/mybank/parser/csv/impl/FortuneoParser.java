@@ -26,7 +26,7 @@ public class FortuneoParser extends GenericParser {
 	private static final int COLUMN_OPERATION_DEBIT = 3;
 	private static final int COLUMN_OPERATION_CREDIT = 4;
 	
-	private static final int LINE_SIZE = 5;
+	private static final int LINE_SIZE = 4;
 	
 	private DateTimeFormatter datePattern;
 	
@@ -63,14 +63,13 @@ public class FortuneoParser extends GenericParser {
 				String[] splittedLine = line.split( SEPARATOR );
 				
 				if( splittedLine.length < LINE_SIZE ) {
-					log.warn( "The line {} is too small" + line );
+					log.warn( "The line '{}' is too small" , line );
 				}else {
 					
 					Operation op = this.bankFactory.createOperation();
 					
 					BigDecimal amount; 
-					if( isDebit( splittedLine ) 
-						&& splittedLine[COLUMN_OPERATION_DEBIT] != null ) {
+					if( isDebit( splittedLine ) ) {
 						amount = new BigDecimal( splittedLine[COLUMN_OPERATION_DEBIT].trim().replace(",", ".") );
 					}else if( splittedLine[COLUMN_OPERATION_CREDIT] != null ) {
 						amount = new BigDecimal( splittedLine[COLUMN_OPERATION_CREDIT].trim().replace(",", ".") );
