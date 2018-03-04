@@ -81,6 +81,11 @@ export class BankAccountMyBankAnalyticsDialogComponent implements OnInit {
     trackExtendedUserById(index: number, item: ExtendedUserMyBankAnalytics) {
         return item.id;
     }
+
+    trackId(index: number, item:ParserType ){
+        return item.name;
+    }
+
 }
 
 @Component({

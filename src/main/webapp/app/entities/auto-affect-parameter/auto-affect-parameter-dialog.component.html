@@ -21,7 +21,7 @@
             <label class="form-control-label" jhiTranslate="autoAffectParam.param.category" for="field_owner">Category</label>
             <select class="form-control" id="field_owner" name="target" [(ngModel)]="param.target.id" >
                 <option [ngValue]="null"></option>
-                <option [ngValue]="category.id" *ngFor="let category of categories; trackBy: trackId">{{category.label}}</option>
+                <option [ngValue]="category.id" *ngFor="let category of categories; trackBy: trackCategoryById">{{category.label}}</option>
             </select>
         </div>
 
