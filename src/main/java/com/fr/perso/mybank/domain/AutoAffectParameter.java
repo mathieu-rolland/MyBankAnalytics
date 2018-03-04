@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "AUTO_AFFECT_PARAMETER")
+@Table(name = "auto_affect_parameter")
 public class AutoAffectParameter implements Serializable {
 	
 	private static final long serialVersionUID = 5736149614172242721L;
