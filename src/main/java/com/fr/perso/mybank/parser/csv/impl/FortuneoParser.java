@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,9 +54,9 @@ public class FortuneoParser extends GenericParser {
 	}
 
 	@Override
-	public int parserFileContent(BufferedReader reader) throws IOException {
+	public List<Operation> parserFileContent(BufferedReader reader) throws IOException {
 		
-		int nbLineRead = 0;
+		List<Operation> operations = new ArrayList<Operation>();
 		
 		while( reader.ready() ) {
 			String line = reader.readLine();
@@ -85,13 +87,12 @@ public class FortuneoParser extends GenericParser {
 					op.setAmount( amount );
 					op.setDate( date );
 					
-					super.account.addOperation( op );
-					nbLineRead++;
+					operations.add( op );
 				}
 			}
 		}
 		
-		return nbLineRead;
+		return operations;
 	}
 
 	@Override

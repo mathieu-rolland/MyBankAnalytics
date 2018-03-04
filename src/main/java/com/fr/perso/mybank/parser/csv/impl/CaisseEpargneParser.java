@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,9 +98,9 @@ public class CaisseEpargneParser extends GenericParser {
 	}
 	
 	@Override
-	public int parserFileContent(BufferedReader reader) throws IOException {
+	public List<Operation> parserFileContent(BufferedReader reader) throws IOException {
 		
-		int nbLineRead = 0;
+		List<Operation> operations = new ArrayList<Operation>();
 		
 		while( reader.ready() ) {
 			
@@ -126,14 +128,13 @@ public class CaisseEpargneParser extends GenericParser {
 				op.setDate( java.time.LocalDate.parse( splittedLine[COLUMN_DATE] , DateTimeFormatter.ofPattern("dd/MM/yy")) );
 				op.setLabel( splittedLine[COLUMN_OPERATION_LIBELLE] );
 				
-				account.addOperation( op );
+				operations.add( op );
 			}else {
 				log.debug("The line will not be parsed : {} " , line);
 			}
-			
 		}
 		
-		return nbLineRead;
+		return operations;
 	}
 
 	private boolean isDebit( String[] line ) {

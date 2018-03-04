@@ -40,6 +40,13 @@ export class AutoAffectParameterComponent implements OnInit {
         return result;
     }
 
+    applyParam(){
+        this.paramService.applyParameter().subscribe( 
+            (res: ResponseWrapper) => console.log("OK"),
+            (res: ResponseWrapper) => console.log("KO") 
+        );
+    }
+
 	loadPage(page) {
         this.page = page;
         this.loadAll();
