@@ -19,7 +19,7 @@
     -->
     <changeSet id="20180303-2" author="mathieu">
           
- 			<createTable tableName="AUTO_AFFECT_PARAMETER">
+ 			<createTable tableName="auto_affect_parameter">
             	<column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 	<constraints primaryKey="true" nullable="false"/>
             	</column>
@@ -30,13 +30,13 @@
                 	<constraints nullable="false"/>
             	</column>
             </createTable>
-            
+
             <addForeignKeyConstraint 
-            	constraintName="FK_AUTO_AFFECT_PARAM_CATEGORY" 
-            	referencedTableName="CATEGORY" 
+            	constraintName="fk_auto_affect_param_category"
+            	referencedTableName="category" 
             	baseColumnNames="affected_category"
-            	baseTableName="AUTO_AFFECT_PARAMETER" 
-            	referencedColumnNames="ID"/>
+            	baseTableName="auto_affect_parameter" 
+            	referencedColumnNames="id"/>
         
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
