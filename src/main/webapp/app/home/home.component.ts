@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     bankAccounts: BankAccountMyBankAnalytics[];
     regularFees: OperationMyBankAnalytics[];
-
+    regularFeesSum: number;
 
     startDate: Date;
     endDate: Date;
@@ -197,7 +197,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
 
     onRegularFeesFetch( data ){
+
         this.regularFees = data;
+        
+        /*Compute sum of futur regular fees*/
+        this.regularFeesSum = 0;
+
+        for( let index in this.regularFees){
+            this.regularFeesSum += this.regularFees[index].amount;
+        }
     }
 
     onAccountsFetch( data , header ) {
