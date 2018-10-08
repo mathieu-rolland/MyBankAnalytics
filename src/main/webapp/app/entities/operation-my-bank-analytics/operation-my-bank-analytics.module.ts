@@ -15,6 +15,7 @@ import {
     operationPopupRoute,
     OperationMyBankAnalyticsResolvePagingParams,
 } from './';
+import { FilterPipe } from './operation-my-bank-analytics.pipe';
 
 const ENTITY_STATES = [
     ...operationRoute,
@@ -33,6 +34,7 @@ const ENTITY_STATES = [
         OperationMyBankAnalyticsDeleteDialogComponent,
         OperationMyBankAnalyticsPopupComponent,
         OperationMyBankAnalyticsDeletePopupComponent,
+        FilterPipe
     ],
     entryComponents: [
         OperationMyBankAnalyticsComponent,
