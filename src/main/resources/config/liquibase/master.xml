@@ -16,5 +16,6 @@
     <include file="config/liquibase/changelog/20180210_add_operations_fields.xml" relativeToChangelogFile="false"/>  
     <include file="config/liquibase/changelog/20180303_add_bank_parser_type.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180303_add_auto_affect_parameter_table.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181008_add_auto_filtered_category.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

@@ -1,11 +1,5 @@
 package com.fr.perso.mybank.service.impl;
 
-import com.fr.perso.mybank.service.OperationService;
-import com.fr.perso.mybank.domain.Operation;
-import com.fr.perso.mybank.repository.OperationRepository;
-import com.fr.perso.mybank.service.dto.OperationDTO;
-import com.fr.perso.mybank.service.mapper.OperationMapper;
-
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -13,10 +7,19 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.fr.perso.mybank.domain.AutoFilteredCategory;
+import com.fr.perso.mybank.domain.Operation;
+import com.fr.perso.mybank.repository.AutoFilteredCategoryRepository;
+import com.fr.perso.mybank.repository.OperationRepository;
+import com.fr.perso.mybank.service.OperationService;
+import com.fr.perso.mybank.service.dto.OperationDTO;
+import com.fr.perso.mybank.service.mapper.OperationMapper;
 
 
 /**
@@ -28,17 +31,14 @@ public class OperationServiceImpl implements OperationService {
 
     private final Logger log = LoggerFactory.getLogger(OperationServiceImpl.class);
 
-    private final OperationRepository operationRepository;
+    @Autowired
+    private OperationRepository operationRepository;
 
-    private final OperationMapper operationMapper;
-
-    public OperationServiceImpl(OperationRepository operationRepository, OperationMapper operationMapper) {
-        this.operationRepository = operationRepository;
-        this.operationMapper = operationMapper;
-    }
+    @Autowired
+    private OperationMapper operationMapper;
 
     /**
-     * Save a operation.
+     * Save an operation.
      *
      * @param operationDTO the entity to save
      * @return the persisted entity
@@ -116,8 +116,8 @@ public class OperationServiceImpl implements OperationService {
 		LocalDate endDate = yearMonth.atEndOfMonth();
 		
 		log.debug("Find regular fees with date : start : " + startDate + " / end : " + endDate );
-		
 		List<Operation> ops = operationRepository.findRegularFeesForMonth( startDate , endDate );
+		
 		return operationMapper.toDto(ops);
 	}
 }
