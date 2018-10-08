@@ -39,13 +39,27 @@ public abstract class GenericParser implements IParser {
 	}
 	
 	@Override
+	public void setFile(File f) {
+		this.file = f;
+	}
+
+	@Override
+	public void setBankAccount(BankAccount account) {
+		this.account = account;
+	}
+
+	@Override
+	public void setFactory(IBankFactory factory) {
+		this.bankFactory = factory;
+	}
+	
+	@Override
 	public File getFile() {
 		return file;
 	}
 
 	@Override
 	public Date getExtractionDate() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -56,12 +70,11 @@ public abstract class GenericParser implements IParser {
 
 	@Override
 	public List<Operation> getOperations() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int parse() throws FileNotFoundException,IOException  {
+	public List<Operation> parse() throws FileNotFoundException,IOException, Exception  {
 
 		log.info( "Start to read file {}" , file.getAbsolutePath() );
 		
@@ -73,14 +86,14 @@ public abstract class GenericParser implements IParser {
 		int nbSkippedLine = skipLine(reader, nbLineRead);
 		log.info( "Number of line skipped : {}" , nbSkippedLine );
 		
-		nbLineRead = parserFileContent( reader );
+		List<Operation> operations = parserFileContent( reader );
 		log.info( "End of parsing file. {} operations have been read." , account.getOperations().size() );
 		
-		return nbLineRead;
+		return operations;
 	}
 
-	public abstract int parseFileHeader( BufferedReader reader ) throws IOException;
-	public abstract int parserFileContent( BufferedReader reader ) throws IOException;
+	public abstract int parseFileHeader( BufferedReader reader ) throws IOException, Exception;
+	public abstract List<Operation> parserFileContent( BufferedReader reader ) throws IOException;
 	public abstract int skipLine( BufferedReader reader , int currentLine ) throws IOException;
 	
 	@Override

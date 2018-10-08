@@ -7,6 +7,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { BankAccountMyBankAnalytics } from './bank-account-my-bank-analytics.model';
+import { ParserType } from './parser-type-my-bank-analytics.model';
 import { BankAccountMyBankAnalyticsPopupService } from './bank-account-my-bank-analytics-popup.service';
 import { BankAccountMyBankAnalyticsService } from './bank-account-my-bank-analytics.service';
 import { ExtendedUserMyBankAnalytics, ExtendedUserMyBankAnalyticsService } from '../extended-user-my-bank-analytics';
@@ -22,6 +23,7 @@ export class BankAccountMyBankAnalyticsDialogComponent implements OnInit {
     isSaving: boolean;
 
     extendedusers: ExtendedUserMyBankAnalytics[];
+    parsers: ParserType[];
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -36,6 +38,10 @@ export class BankAccountMyBankAnalyticsDialogComponent implements OnInit {
         this.isSaving = false;
         this.extendedUserService.query()
             .subscribe((res: ResponseWrapper) => { this.extendedusers = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.bankAccountService.getAvailableParsers().subscribe(
+            ((res:ResponseWrapper) => this.parsers = res.json),
+            ((res:ResponseWrapper) => this.onError(res.json))
+        );
     }
 
     clear() {
@@ -75,6 +81,11 @@ export class BankAccountMyBankAnalyticsDialogComponent implements OnInit {
     trackExtendedUserById(index: number, item: ExtendedUserMyBankAnalytics) {
         return item.id;
     }
+
+    trackId(index: number, item:ParserType ){
+        return item.name;
+    }
+
 }
 
 @Component({

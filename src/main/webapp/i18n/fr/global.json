@@ -11,7 +11,8 @@
                 "operationMyBankAnalytics": "Operation",
                 "categoryMyBankAnalytics": "Category",
                 "extendedUserMyBankAnalytics": "Extended User",
-                "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+                "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
+                "auto-affect-parameter": "Paramétrage auto affectation"
             },
             "account": {
                 "main": "Compte",
@@ -83,7 +84,11 @@
             }
         },
         "field": {
-            "id": "ID"
+            "id": "ID",
+            "amount": "Montant",
+            "date": "Date",
+            "categories": "Catégories",
+            "label": "Libellé"
         },
         "ribbon": {
             "dev":"Développement"
@@ -101,7 +106,8 @@
             "import": "Importer",
             "open": "Ouvrir",
             "save": "Sauvegarder",
-            "view": "Voir"
+            "view": "Voir",
+            "apply": "Appliquer"
         },
         "import":{
             "title": "Importer un fichier d'opérations"

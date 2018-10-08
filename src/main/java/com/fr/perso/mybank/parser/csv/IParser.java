@@ -18,7 +18,7 @@ public interface IParser {
 	public Date getExtractionDate();
 	public BankAccount getBankAccount();
 	public List<Operation> getOperations(); 
-	public int parse() throws FileNotFoundException, IOException;
+	public List<Operation> parse() throws FileNotFoundException, IOException, Exception;
 	public void setFile( File f );
 	public void setBankAccount( BankAccount account );
 	public void setFactory(IBankFactory factory);

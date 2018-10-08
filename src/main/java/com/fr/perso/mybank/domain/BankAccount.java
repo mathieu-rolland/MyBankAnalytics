@@ -37,6 +37,10 @@ public class BankAccount implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Operation> operations = new HashSet<Operation>();
 
+    @Enumerated(EnumType.STRING)
+    @Column( name = "PARSER" )
+    private ParserType parser; 
+    
     @ManyToOne
     private ExtendedUser owner;
 
@@ -115,7 +119,15 @@ public class BankAccount implements Serializable {
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
-    @Override
+    public ParserType getParserType() {
+		return parser;
+	}
+
+	public void setParserType(ParserType parserType) {
+		this.parser = parserType;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

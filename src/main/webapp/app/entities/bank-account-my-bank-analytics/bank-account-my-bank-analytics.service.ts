@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { SERVER_API_URL } from '../../app.constants';
 
 import { BankAccountMyBankAnalytics } from './bank-account-my-bank-analytics.model';
+import { ParserType } from './parser-type-my-bank-analytics.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
 
 @Injectable()
@@ -46,14 +47,18 @@ export class BankAccountMyBankAnalyticsService {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
 
-    import( file: File , id: number ): Observable<Response> {
+    import(file: File , id: number ): Observable<Response> {
 
         const formData: FormData = new FormData();
         formData.append('fileKey' ,  file , file.name );
-
+        
         return this.http.post( this.resourceUrl + '/' + id + '/import', formData ).map((res: Response) => {
             return res;
         });
+    }
+
+    getAvailableParsers(){
+        return this.http.get( this.resourceUrl + '/available_parsers' ).map( (res : Response) => this.convertToParserType(res) ); 
     }
 
     private convertResponse(res: Response): ResponseWrapper {
@@ -63,6 +68,21 @@ export class BankAccountMyBankAnalyticsService {
             result.push(this.convertItemFromServer(jsonResponse[i]));
         }
         return new ResponseWrapper(res.headers, result, res.status);
+    }
+
+    private convertToParserType( res: Response ): ResponseWrapper {
+        const jsonResponse = res.json();
+        const result = [];
+        for (let i = 0; i < jsonResponse.length; i++) {
+            result.push(this.convertItemFromServerToParserType(jsonResponse[i]));
+        }
+        return new ResponseWrapper(res.headers, result, res.status);
+    }
+
+    private convertItemFromServerToParserType(json: any): BankAccountMyBankAnalytics {
+        const parser:ParserType = new ParserType();
+        parser.name = json;
+        return parser;
     }
 
     /**

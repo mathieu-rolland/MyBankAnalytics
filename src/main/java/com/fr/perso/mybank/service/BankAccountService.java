@@ -1,7 +1,10 @@
 package com.fr.perso.mybank.service;
 
+import com.fr.perso.mybank.domain.BankAccount;
+import com.fr.perso.mybank.domain.ParserType;
 import com.fr.perso.mybank.service.dto.BankAccountDTO;
 import java.io.File;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +29,8 @@ public interface BankAccountService {
      * @return the list of entities
      */
     Page<BankAccountDTO> findAll(Pageable pageable);
-
+    Page<BankAccount> findAllHasEntity(Pageable pageable);
+    
     /**
      * Get the "id" bankAccount.
      *
@@ -42,6 +46,10 @@ public interface BankAccountService {
      */
     void delete(Long id);
     
-	boolean importOprations(File file, Long bankAccountId);
+	boolean importOperations(File file, Long bankAccountId);
+
+	public List<ParserType> getAllAvailableParser();
+
+	public BankAccount save(BankAccount bankAccount);
     
 }

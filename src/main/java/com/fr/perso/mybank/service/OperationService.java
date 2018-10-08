@@ -45,5 +45,7 @@ public interface OperationService {
     void delete(Long id);
     
     List<OperationDTO> findbetweenDate(String start, String end);
+
+	List<OperationDTO> findRegularFeesForCurrentMonth();
     
 }
