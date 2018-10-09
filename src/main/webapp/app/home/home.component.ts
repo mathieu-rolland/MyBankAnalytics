@@ -9,6 +9,7 @@ import { ChartModule } from 'angular2-highcharts';
 import { BankAccountMyBankAnalyticsService, BankAccountMyBankAnalytics } from '../entities/bank-account-my-bank-analytics';
 import { OperationMyBankAnalyticsService, OperationMyBankAnalytics } from '../entities/operation-my-bank-analytics';
 import { CategoryMyBankAnalytics } from '../entities/category-my-bank-analytics';
+import { AreaClickEvent } from 'highcharts';
 
 @Component({
     selector: 'jhi-home',
@@ -26,6 +27,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     bankAccounts: BankAccountMyBankAnalytics[];
     regularFees: OperationMyBankAnalytics[];
+    selectedCategory: OperationMyBankAnalytics[];
+    
+    operationsByCategory: any;
+    selectedCategoryName: string;
+    detailsOnChart: string;
+
     regularFeesSum: number;
 
     startDate: Date;
@@ -48,7 +55,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
         this.bankAccounts = [];
         this.regularFees = [];
-
+        this.operationsByCategory = [];
     }
 
     ngAfterViewInit() {
@@ -57,6 +64,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
 
+        let componentScope = this;
+
         this.principal.identity().then((account) => {
             this.account = account;
         });
@@ -64,7 +73,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.registerAuthenticationSuccess();
 
         const selectMonth: Date = new Date();
-        selectMonth.setMonth( selectMonth.getMonth() - 1 );
+        selectMonth.setMonth( selectMonth.getMonth() - 8 );
 
         // Calcul des dates :
         this.startDate = DateUtils.firstDayOftTheMonth( selectMonth );
@@ -92,6 +101,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
                         format: '<b>{point.name}</b>: {point.y:.1f} €',
                         style: {
                             color: 'black'
+                        }
+                    },
+                    events:{
+                        click: function( event ) {
+                            componentScope.displaySelectedCategory( event , 'DEBIT');
                         }
                     }
                 }
@@ -122,14 +136,34 @@ export class HomeComponent implements OnInit, AfterViewInit {
                         style: {
                             color: 'black'
                         }
+                    },events : {
+                        click: function( event ) {
+                            componentScope.displaySelectedCategory( event , 'CREDIT' );
+                        }
                     }
                 }
             },
             series: []
         } );
 
+        //this.chartDebit.options.plotOptions.pie.events = PlotEvents
+        // click.call( this.displaySelectedCategory );
         this.loadData();
 
+    }
+
+    displaySelectedCategory( e: AreaClickEvent , chartType: string ){
+        if( chartType === 'CREDIT' ){
+            this.detailsOnChart = "crédits";
+        }else{
+            this.detailsOnChart = "débits";
+        }
+        this.selectedCategoryName = e.point.name;
+        this.selectedCategory = this.operationsByCategory[ this.selectedCategoryName ];
+    }
+
+    closeSelectedCategoryDetails(){
+        this.detailsOnChart = null;
     }
 
     onNextClick() {
@@ -237,17 +271,21 @@ export class HomeComponent implements OnInit, AfterViewInit {
             const operation: OperationMyBankAnalytics = operations[j];
             const category: CategoryMyBankAnalytics = operation.categories.length == 0 ? null : operation.categories[0];
 
-            const chartLabel: string = category == null ? 'TO BE DEFINED' : category.label;
+            const chartLabel: string = (category == null) ? 'TO BE DEFINED' : category.label;
 
             if( operation.amount < 0 ) {
 
                 if( debit.data[chartLabel] ) {
                     debit.data[chartLabel].y += Math.abs(operation.amount);
+                    debit.data[chartLabel].category = category;
+                    debit.data[chartLabel].operations.push( operation );
                 } else {
                     debit.data[ chartLabel ] = {
                         'name': chartLabel,
-                        'y': Math.abs(operation.amount)
+                        'y': Math.abs(operation.amount),
+                        'operations': [operation]
                     };
+                    this.operationsByCategory[chartLabel] = [];
                 }
             }else{
                 if( credit.data[ chartLabel ] ) {
@@ -257,8 +295,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
                         'name': chartLabel,
                         'y': operation.amount
                     };
+                    this.operationsByCategory[chartLabel] = [];
                 }
             }
+            this.operationsByCategory[chartLabel].push( operation );
         }
         if (debit.data ) {
             for( const obj in debit.data ) {
@@ -271,6 +311,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
                credit.data.push( credit.data[obj] );
             }
         }
+        
         this.chartDebit.addSerie( debit );
         this.chartCredit.addSerie( credit );
         this.updateChartsTitle();
@@ -297,4 +338,5 @@ export class HomeComponent implements OnInit, AfterViewInit {
     login() {
         this.loginService.login();
     }
+    
 }
