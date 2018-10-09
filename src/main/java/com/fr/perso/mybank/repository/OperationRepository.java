@@ -23,7 +23,7 @@ public interface OperationRepository extends JpaRepository<Operation, Long> {
     Operation findOneWithEagerRelationships(@Param("id") Long id);
 
     @Query(
-    			value = "select * from Operation "
+    			value = "select * from operation "
     			+ "operation where operation.jhi_date >= :start and operation.jhi_date <= :end "
     			+ " and operation.id not in ( select operations_id from operation_category where categories_id in("
     			+ " select FILTERED_CATEGORY from AUTO_FILTERED_CATEGORY ) )"
