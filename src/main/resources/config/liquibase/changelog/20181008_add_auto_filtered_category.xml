@@ -19,13 +19,13 @@
             <column name="ID" type="int" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="FILTERED_CATEGORY" type="int" />
+            <column name="FILTERED_CATEGORY" type="bigint" />
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
      
      	<addForeignKeyConstraint constraintName="FK_AUTO_FILTERED_CATEGORY" 
-     			referencedTableName="category" baseColumnNames="ID" 
+     			referencedTableName="category" baseColumnNames="FILTERED_CATEGORY" 
      			baseTableName="AUTO_FILTERED_CATEGORY" 
      			referencedColumnNames="ID"/>
      
