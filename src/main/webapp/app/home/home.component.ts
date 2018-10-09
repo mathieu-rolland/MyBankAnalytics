@@ -73,7 +73,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.registerAuthenticationSuccess();
 
         const selectMonth: Date = new Date();
-        selectMonth.setMonth( selectMonth.getMonth() - 8 );
+        selectMonth.setMonth( selectMonth.getMonth() - 1 );
 
         // Calcul des dates :
         this.startDate = DateUtils.firstDayOftTheMonth( selectMonth );
