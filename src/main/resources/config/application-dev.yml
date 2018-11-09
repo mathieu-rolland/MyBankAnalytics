@@ -149,4 +149,8 @@ jhipster:
 # http://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-application:
+bank:
+    file:
+        upload:
+            path: "/home/mathieu/programmation/workspaces/MyBankAnalytics/MyBankAnalytics/tmp/"
+        
