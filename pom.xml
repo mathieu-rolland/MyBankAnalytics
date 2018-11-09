@@ -4,7 +4,7 @@
 
     <groupId>com.fr.perso.mybank</groupId>
     <artifactId>my-bank-analytics</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.2.1</version>
     <packaging>war</packaging>
     <name>My Bank Analytics</name>
 
