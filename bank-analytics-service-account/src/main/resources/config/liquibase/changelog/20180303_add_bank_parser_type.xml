@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<property name="floatType" value="float4" dbms="postgresql, h2"/>
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
+
+    <!--
+        Added the entity Category.
+    -->
+    <changeSet id="20180303-1" author="mathieu">
+    	
+    	 <createTable tableName="parser_type">
+
+            <column name="name" type="varchar(255)">
+                <constraints nullable="true" primaryKey="true" />
+            </column>
+
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
+        </createTable>
+    
+          <addColumn 
+	            tableName="bank_account">
+	            
+	       <column name="parser" type="varchar(255)">
+	                <constraints nullable="true" />
+	       </column>
+	       
+	    </addColumn>
+	    
+	    <addForeignKeyConstraint baseColumnNames="parser"
+                                 baseTableName="bank_account"
+                                 constraintName="fk_bank_account_parser_type"
+                                 referencedColumnNames="name"
+                                 referencedTableName="parser_type"/>
+	    
+	    <insert tableName = "parser_type">
+	    	<column name="name" value="CAISSE_EPARGNE" />
+	    </insert>
+        
+        <insert tableName = "parser_type">
+	    	<column name="name" value="FORTUNEO" />
+	    </insert>
+        
+        <update tableName="bank_account">
+       		<column name="PARSER" value="CAISSE_EPARGNE"/>
+       		<where>name like 'Nom du compte : CPT DEPOT PART.%'</where>
+       	</update>
+        
+        
+        
+    </changeSet>
+
+</databaseChangeLog>
